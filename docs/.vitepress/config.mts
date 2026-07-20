@@ -1,0 +1,85 @@
+import { defineConfig } from 'vitepress'
+
+export default defineConfig({
+  title: '40 天前端冲刺计划',
+  description: '从未系统学过 TypeScript 到 Vue3 + TS 前端实习项目',
+  base: process.env.BASE_PATH || '/',
+  lang: 'zh-CN',
+  cleanUrls: true,
+  themeConfig: {
+    logo: '/logo.svg',
+    nav: [
+      { text: '首页', link: '/' },
+      { text: '总览', link: '/overview' },
+      { text: '第 1 天', link: '/days/day-01/' },
+    ],
+    sidebar: {
+      '/days/': [
+        {
+          text: '40 天目录',
+          items: [
+          { text: "第 1 天：环境、项目和学习节奏", link: "/days/day-01/" },
+          { text: "第 2 天：HTML 语义化和表单", link: "/days/day-02/" },
+          { text: "第 3 天：CSS 盒模型、Flex 和响应式", link: "/days/day-03/" },
+          { text: "第 4 天：JavaScript 变量、作用域、闭包", link: "/days/day-04/" },
+          { text: "第 5 天：this、原型链、class", link: "/days/day-05/" },
+          { text: "第 6 天：数组、对象、防抖节流", link: "/days/day-06/" },
+          { text: "第 7 天：Promise、async/await、接口思维", link: "/days/day-07/" },
+          { text: "第 8 天：事件循环、模块化、第一次阶段复盘", link: "/days/day-08/" },
+          { text: "第 9 天：TypeScript 第一天：它到底解决什么", link: "/days/day-09/" },
+          { text: "第 10 天：TS 函数类型、对象类型、接口", link: "/days/day-10/" },
+          { text: "第 11 天：TS 联合类型和类型收窄", link: "/days/day-11/" },
+          { text: "第 12 天：TS 泛型入门", link: "/days/day-12/" },
+          { text: "第 13 天：TS 工具类型和类型组织", link: "/days/day-13/" },
+          { text: "第 14 天：Vue 中的 TS：ref、reactive、props", link: "/days/day-14/" },
+          { text: "第 15 天：TS + Axios + 接口类型", link: "/days/day-15/" },
+          { text: "第 16 天：TS 阶段复盘和小重构", link: "/days/day-16/" },
+          { text: "第 17 天：Vue3 Composition API 系统补课", link: "/days/day-17/" },
+          { text: "第 18 天：组件通信和弹窗组件", link: "/days/day-18/" },
+          { text: "第 19 天：Vue Router 和路由守卫", link: "/days/day-19/" },
+          { text: "第 20 天：Pinia 状态管理", link: "/days/day-20/" },
+          { text: "第 21 天：Axios 请求封装和错误处理", link: "/days/day-21/" },
+          { text: "第 22 天：RBAC 权限模型", link: "/days/day-22/" },
+          { text: "第 23 天：Element Plus 表格、分页、表单", link: "/days/day-23/" },
+          { text: "第 24 天：封装 SearchForm", link: "/days/day-24/" },
+          { text: "第 25 天：封装 DataTable", link: "/days/day-25/" },
+          { text: "第 26 天：角色管理", link: "/days/day-26/" },
+          { text: "第 27 天：菜单管理和树形数据", link: "/days/day-27/" },
+          { text: "第 28 天：ECharts 数据看板", link: "/days/day-28/" },
+          { text: "第 29 天：composables 组合式函数重构", link: "/days/day-29/" },
+          { text: "第 30 天：浏览器渲染和性能指标", link: "/days/day-30/" },
+          { text: "第 31 天：HTTP、缓存、跨域、鉴权", link: "/days/day-31/" },
+          { text: "第 32 天：前端安全", link: "/days/day-32/" },
+          { text: "第 33 天：Vitest 单元测试", link: "/days/day-33/" },
+          { text: "第 34 天：部署和 README", link: "/days/day-34/" },
+          { text: "第 35 天：React 快速了解，别深陷", link: "/days/day-35/" },
+          { text: "第 36 天：JS + TS 高频面试复盘", link: "/days/day-36/" },
+          { text: "第 37 天：Vue 高频面试复盘", link: "/days/day-37/" },
+          { text: "第 38 天：浏览器、网络、性能复盘", link: "/days/day-38/" },
+          { text: "第 39 天：项目讲解稿和简历", link: "/days/day-39/" },
+          { text: "第 40 天：模拟面试和投递准备", link: "/days/day-40/" }
+          ],
+        },
+      ],
+      '/': [
+        { text: '首页', link: '/' },
+        { text: '总览', link: '/overview' },
+        { text: '开始第 1 天', link: '/days/day-01/' },
+      ],
+    },
+    outline: {
+      level: [2, 3],
+      label: '本页目录',
+    },
+    search: {
+      provider: 'local',
+    },
+    docFooter: {
+      prev: '上一天',
+      next: '下一天',
+    },
+    lastUpdated: {
+      text: '最后更新',
+    },
+  },
+})
