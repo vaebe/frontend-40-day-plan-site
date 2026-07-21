@@ -74,10 +74,6 @@ export default defineConfig({
     search: {
       provider: 'local',
     },
-    docFooter: {
-      prev: '上一天',
-      next: '下一天',
-    },
     lastUpdated: {
       text: '最后更新',
     },
