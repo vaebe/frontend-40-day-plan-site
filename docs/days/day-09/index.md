@@ -1,120 +1,188 @@
 ---
-title: 第 9 天：TypeScript 第一天：它到底解决什么
+title: 第 9 天：事件循环、模块化与 DevTools
 ---
 
-# 第 9 天：TypeScript 第一天：它到底解决什么
+# 第 9 天：事件循环、模块化与 DevTools
 
-::: tip 阶段
-**阶段：** TypeScript 从 0 到项目可用
-
-**用法：** 每个时间段都已经把“具体看哪些章节”和“学完怎么验收”放在一起。先看验收标准，再照着具体安排做。
+::: tip 今天只认这个结果
+**阶段：** JavaScript 与 Vue 入门<br>
+**时间：** 正常学习日（6 小时净学习 + 30 分钟验收）<br>
+**第一项成果：** 四题均保存预测与实际
 :::
 
-[[toc]]
+> 正常日的 6 小时是净学习时间，最后统一审查的 30 分钟另计。当天的学习任务和自测全部由学习者独立完成，过程中不接受提示、故障注入或逐项检查。每学习 45～60 分钟离开屏幕休息 10～15 分钟；未完成内容不靠熬夜补。
 
-## 08:30-09:00 晨间复盘
+## 开始今天的任务
 
-::: tip 这一段学完要达到
-- 知道：TS 是带类型检查的 JS。
-- 理解：TS 帮你在运行前发现低级错误。
-- 学会：接受“不会 TS 很正常，今天从 0 开始”。
-- 验收：能说出 TS 和 JS 的关系。
+### 1. 依次运行这些命令
+
+```bash
+pnpm learner:prepare 09
+cd ../frontend-40-day-learning-lab
+git status
+```
+
+命令报错时先停在当前步骤，不要继续执行后面的任务。
+
+
+
+### 2. 打开这些文件或页面
+
+- `event-loop-lab/questions.js`
+- `event-loop-lab/predictions.md`
+- `debug-import/index.html`
+- `debug-import/main.js`
+- `debug-import/activity-api.js`
+- `debug-request/index.html`
+- `debug-request/app.js`
+- `debug-request/activities.json`
+- `notes/day-09.md`
+
+### 3. 开始前必须确认
+
+- [ ] 每日准备命令已把四道题代码写入 questions.js，并生成可真实报错的导入路径故障、JSON 请求故障、固定 activities.json 与笔记；学习者先写 predictions.md，再运行代码。
+- [ ] 在终端 A 从当前 frontend-40-day-learning-lab 运行 npx vite . --port 5174 并保持运行；终端 B 留在同一目录执行 git。
+- [ ] debug-import 与 debug-request 都从 http://localhost:5174/ 下打开，使 Console 和 Network 出现真实证据。
+
+### 4. 第一件具体工作
+
+打开 `event-loop-lab/questions.js`，开始执行“四道固定输出顺序题”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
+
+## 今日时间表
+
+| 顺序 | 必做任务 | 净学习时间 |
+| --- | --- | ---: |
+| 1 | 四道固定输出顺序题 | 90 分钟 |
+| 2 | 模块与 DevTools 两个故障 | 180 分钟 |
+| 3 | 回文串、复现与提交 | 90 分钟 |
+| 统一审查 | 全部学习任务和自测结束后，执行页面底部答案卡 | 另计 30 分钟 |
+
+学习任务合计：**360 分钟**。只在全部必做通过后考虑选做。
+
+## 今日必做
+
+### 必做 1：四道固定输出顺序题（90 分钟）
+
+**修改或创建这些文件**
+
+- `event-loop-lab/questions.js`
+- `event-loop-lab/predictions.md`
+
+**按顺序执行**
+
+1. 题1：console.log(A); console.log(B)。题2：setTimeout(()=&gt;console.log(T),0); console.log(S)。题3：Promise.resolve().then(()=&gt;console.log(P)); console.log(S)。题4：console.log(A); setTimeout(()=&gt;console.log(T),0); Promise.resolve().then(()=&gt;console.log(P)); console.log(B)。
+2. 每题先写预测，再逐题运行；实际顺序分别为 AB、ST、SP、ABPT。
+3. 为题4画调用栈清空→微任务 P→任务 T，不扩展浏览器内部细节。
+
+**完成后应该看到**
+
+- 四题均保存预测与实际
+- 题4实际 ABPT
+- 能说微任务在当前同步代码后、计时器任务前
+
+**立即测试，不要留到晚上**
+
+- [ ] 将题4的 Promise 放到 setTimeout 回调内，重新预测并运行
+
+### 必做 2：模块与 DevTools 两个故障（180 分钟）
+
+**修改或创建这些文件**
+
+- `debug-import/index.html`
+- `debug-import/main.js`
+- `debug-import/activity-api.js`
+- `debug-request/index.html`
+- `debug-request/app.js`
+- `debug-request/activities.json`
+- `notes/day-09.md`
+
+**按顺序执行**
+
+1. debug-import 固定错误：main.js 写 import { loadActivities } from './activityApi.js'，真实文件名为 activity-api.js；先看 Console/Network 404，再只改路径。
+2. debug-request 固定错误：fetch(./activity.json) 但真实文件为 activities.json；Network 观察失败请求、状态码和 Initiator，再修正。
+3. 修正后在 renderActivities 第一行设断点；刷新，查看 activities 的数组长度；Step over 到创建第一张卡片；记录变量变化。
+4. 把 mock API、活动常量、render 和入口调用保持四个职责；本日“数据类型”只指字段结构说明，不引入 TypeScript。
+
+**完成后应该看到**
+
+- 模块路径修复后 Console 无导入错误
+- activities.json 请求 200 并渲染 6 条
+- 能在断点处指出 activities.length=6
+
+**立即测试，不要留到晚上**
+
+- [ ] 再次故意改错路径，按 Console→Network→文件名顺序恢复
+- [ ] 刷新后断点仍命中
+
+### 必做 3：回文串、复现与提交（90 分钟）
+
+**修改或创建这些文件**
+
+- `algorithms/day-09-valid-palindrome.js`
+- `notes/day-09.md`
+
+**按顺序执行**
+
+1. 打开 https://leetcode.cn/problems/valid-palindrome/；双指针跳过非字母数字并忽略大小写。
+2. 样例“A man, a plan, a canal: Panama”为 true，“race a car”为 false。
+3. 在 algorithms/ 对应文件中保留：题意、两个样例、自己的第一版、最终代码、复杂度、AI 辅助等级；不要只保存 LeetCode 通过截图。
+4. 关闭资料重新写一个 export/import 对；提交 chore: split modules and add debug notes。
+
+**完成后应该看到**
+
+- 两个样例正确
+- 模块导入成功
+- 笔记含一次 404 的完整证据
+
+**立即测试，不要留到晚上**
+
+- [ ] 空字符串为 true
+- [ ] 字符串“0P”为 false
+
+
+## 有余力再做
+
+- 只在完成后用 Sources 的 Watch 面板观察第一张活动 title。
+
+选做没有完成不进入欠账清单，也不影响当天通过。
+
+## 卡住时只执行这四步
+
+1. 复制完整错误信息，记录操作步骤、预期和实际结果。
+2. 只检查当天列出的文件，不跨目录乱改；每次只验证一个猜测。
+3. 独立排查 25 分钟仍无进展，再向 AI 提供错误、相关文件、已尝试方法和自己的猜测，只请求一个提示。
+4. 单个问题累计 40 分钟仍未解决，保留失败代码和排查记录，先继续不依赖该问题的任务；等当天全部学习结束后，再把问题放入统一审查。
+
+## 当天结束前固定检查
+
+- [ ] 今天列出的固定测试全部执行，不用“页面看起来没问题”代替。
+- [ ] Console 没有未解释的错误或警告；有意保留的错误已经写入记录。
+- [ ] 执行 `git diff`，学习者可以解释每一处修改。
+- [ ] 为每个必做任务标注：A 独立、B 提示后、C 参考局部示例、D 主要由 AI 生成、E 未完成。
+- [ ] 只提交今天的文件，提交信息与当天成果一致。
+
+## 当天全部学习结束后：资深前端统一审查（30 分钟）
+
+::: warning 只有完成全部学习任务和自测后才能开始
+检查者从这里才介入。学习过程中不提示、不提问、不注入故障，也不逐项验收。
 :::
 
-### 具体安排
+questions.js → debug-import 页面 → debug-request 页面与 DevTools。
 
-- 心态调整：TS 不是新语言，是给 JS 加类型检查。
-- 写今天目标：知道 TS 基础类型和类型推断。
+**检查操作**
 
+1. 口述题4顺序
+2. 现场制造并修复导入路径错误
+3. 在 renderActivities 断点显示数组长度
 
-## 09:00-12:00 上午学习
+**正确结果与判断依据**
 
-::: tip 这一段学完要达到
-- 知道：string、number、boolean、array、any、unknown、类型推断。
-- 理解：不是所有变量都要手写类型，TS 会推断。
-- 学会：给变量和函数参数加基础类型。
-- 验收：Playground 里写 10 个基础类型例子。
-:::
+- 顺序为 ABPT
+- 能依据文件名和 404 修复
+- 不会只凭猜测乱改多个文件
 
-### 具体安排
+### 结果记录
 
-- 看 TypeScript Handbook Intro：https://www.typescriptlang.org/docs/handbook/intro.html
-  - 必看章节：The TypeScript Handbook、How is this Handbook Structured、Get Started。
-  - 读完要会：知道 TS 是给 JS 加类型检查，不是另一门完全不同的语言。
-- 看 Everyday Types：https://www.typescriptlang.org/docs/handbook/2/everyday-types.html
-  - 必看章节：The primitives、Arrays、any、Type Annotations on Variables、Functions、Object Types、Union Types、Type Aliases、Interfaces、Literal Types、null and undefined。
-  - 读完要会：能给变量、数组、函数、对象补基础类型，尽量不写 `any`。
-- 看 TS for JS Programmers：https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
-  - 必看章节：Types by Inference、Defining Types、Composing Types、Structural Type System。
-  - 读完要会：知道 TS 会自动推断类型，也能用 `interface` 描述对象。
-- 重点记：string、number、boolean、array、any、类型推断。
-
-
-## 12:00-14:00 中午轻复盘
-
-::: tip 这一段学完要达到
-- 知道：Playground 是练 TS 的小操场。
-- 理解：初学 TS 必须动手看报错，不要只看文档。
-- 学会：观察类型错误提示。
-- 验收：制造 3 个类型错误并解释为什么错。
-:::
-
-### 具体安排
-
-- 打开 TypeScript Playground：https://www.typescriptlang.org/play
-  - 练习方式：把上午每个类型知识点都写成 1 个最小例子，故意写错一次看报错。
-  - 读完要会：能根据报错定位是哪一个变量、参数或返回值类型不对。
-- 试 10 个最基础类型例子。
-
-
-## 14:00-18:00 下午项目
-
-::: tip 这一段学完要达到
-- 知道：工具函数最适合练基础类型。
-- 理解：函数输入输出清楚，类型就容易写。
-- 学会：写 `formatDate`、`formatMoney`、`isEmpty`。
-- 验收：函数参数和返回值都有类型，不靠 `any`。
-:::
-
-### 具体安排
-
-- 在项目中新建 `src/utils/format.ts`。
-- 写 `formatDate`、`formatMoney`、`isEmpty`，全部加基础类型。
-- 不要用复杂泛型。
-
-
-## 19:30-21:00 晚上算法
-
-::: tip 这一段学完要达到
-- 知道：二分查找要求有序。
-- 理解：二分核心是缩小搜索区间。
-- 学会：写左右边界更新。
-- 验收：能解释 `left &lt;= right` 和 `left &lt; right` 的差异。
-:::
-
-### 具体安排
-
-- 刷 LeetCode 704 二分查找：https://leetcode.cn/problems/binary-search/
-  - 做题步骤：先读题目描述、示例、约束；自己写 20-30 分钟；能 AC 后再看题解优化。
-  - 提交后要补：时间复杂度、空间复杂度、一个容易错的边界条件。
-- 刷 LeetCode 35 搜索插入位置：https://leetcode.cn/problems/search-insert-position/
-  - 做题步骤：先读题目描述、示例、约束；自己写 20-30 分钟；能 AC 后再看题解优化。
-  - 提交后要补：时间复杂度、空间复杂度、一个容易错的边界条件。
-
-
-## 21:00-22:30 夜间输出
-
-::: tip 这一段学完要达到
-- 知道：TS 第一关是不要怕报错。
-- 理解：类型报错是在帮你。
-- 学会：总结 TS 入门体验。
-- 验收：写完《TypeScript 是什么，为什么前端要学》。
-:::
-
-### 具体安排
-
-- 写笔记：《TypeScript 是什么，为什么前端要学》。
-- Git commit：`feat: add typed format utilities`
-- 当天产出：你写出第一个 TS 工具文件。
-
-
+- **通过：** 固定测试通过，学习者能指出代码位置并说明数据变化；现场修改只需少量提示。
+- **部分通过：** 功能可运行，但固定边界失败或关键代码解释不清；只把具体失败项放入最近巩固日。
+- **未通过：** 起始项目无法运行、主要实现不能解释或固定测试大面积失败；下一天先降低选做和新内容，不当晚加时。

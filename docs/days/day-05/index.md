@@ -1,120 +1,242 @@
 ---
-title: 第 5 天：this、原型链、class
+title: 第 5 天：DOM、事件与完整页面交互
 ---
 
-# 第 5 天：this、原型链、class
+# 第 5 天：DOM、事件与完整页面交互
 
-::: tip 阶段
-**阶段：** JS / CSS / 项目环境
-
-**用法：** 每个时间段都已经把“具体看哪些章节”和“学完怎么验收”放在一起。先看验收标准，再照着具体安排做。
+::: tip 今天只认这个结果
+**阶段：** 基础重建<br>
+**时间：** 正常学习日（6 小时净学习 + 30 分钟验收）<br>
+**第一项成果：** 刷新后仍显示 6 张卡
 :::
 
-[[toc]]
+> 正常日的 6 小时是净学习时间，最后统一审查的 30 分钟另计。当天的学习任务和自测全部由学习者独立完成，过程中不接受提示、故障注入或逐项检查。每学习 45～60 分钟离开屏幕休息 10～15 分钟；未完成内容不靠熬夜补。
 
-## 08:30-09:00 晨间复盘
+## 开始今天的任务
 
-::: tip 这一段学完要达到
-- 知道：今天补 JS 对象体系。
-- 理解：很多框架源码和面试题都绕不开原型链。
-- 学会：区分函数调用和方法调用里的 this。
-- 验收：能说出 this 不是定义时固定，而是多数情况下调用时决定。
+### 1. 依次运行这些命令
+
+```bash
+pnpm learner:prepare 05
+cd ../frontend-40-day-learning-lab
+git status
+node --test campus-activity-board/tests/day-03.test.mjs campus-activity-board/tests/day-04.test.mjs
+```
+
+命令报错时先停在当前步骤，不要继续执行后面的任务。
+
+
+
+### 2. 打开这些文件或页面
+
+- `campus-activity-board/index.html`
+- `campus-activity-board/src/app.js`
+- `campus-activity-board/src/utils/activity-utils.js`
+- `campus-activity-board/src/data/activities.js`
+- `notes/day-05.md`
+- `algorithms/day-05-valid-parentheses.js`
+
+### 3. 开始前必须确认
+
+- [ ] Day 4 的全部纯函数测试通过；今天必须直接导入并复用，禁止在事件回调里复制筛选条件。
+- [ ] 终端 A 运行 node serve.mjs campus-activity-board；浏览器打开 http://127.0.0.1:4174。
+- [ ] Day 1 的 app.js 已保留 Day 5 TODO；每日准备命令只补独立选择器故障题、算法文件和当天笔记，不覆盖主项目。
+
+### 4. 第一件具体工作
+
+打开 `campus-activity-board/index.html`，开始执行“建立 DOM 查询、渲染和事件最小闭环”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
+
+## 今日时间表
+
+| 顺序 | 必做任务 | 净学习时间 |
+| --- | --- | ---: |
+| 1 | 建立 DOM 查询、渲染和事件最小闭环 | 75 分钟 |
+| 2 | 接通组合筛选、重置和事件委托 | 150 分钟 |
+| 3 | 用 DevTools 修复一个真实 DOM 故障 | 75 分钟 |
+| 4 | 30 分钟理解栈和有效括号 | 30 分钟 |
+| 5 | 完整页面回归和提交 | 30 分钟 |
+| 统一审查 | 全部学习任务和自测结束后，执行页面底部答案卡 | 另计 30 分钟 |
+
+学习任务合计：**360 分钟**。只在全部必做通过后考虑选做。
+
+## 今日必做
+
+### 必做 1：建立 DOM 查询、渲染和事件最小闭环（75 分钟）
+
+**修改或创建这些文件**
+
+- `campus-activity-board/index.html`
+- `campus-activity-board/src/app.js`
+- `notes/day-05.md`
+
+**按顺序执行**
+
+1. 在 app.js 顶部集中查询 keyword、type、availableOnly、reset、resultCount、activityList、emptyState 七个元素。
+2. 任一元素找不到就抛出明确错误，不在后续代码中到处使用可选链掩盖问题。
+3. 先写 renderActivities(list)：清空容器，再用 map+join 或 createElement 渲染 article，禁止把 onclick 字符串写进 HTML。
+4. 写 renderResultCount(count) 和 renderEmptyState(count)，固定文案“找到 N 个活动”和“暂无符合条件的活动”。
+5. 首次只调用 renderActivities(activities)，确认 Day 2 的 6 张静态卡改由数据生成且布局不变。
+
+**完成后应该看到**
+
+- 刷新后仍显示 6 张卡
+- 结果数为找到 6 个活动
+- 静态卡片已从 index.html 删除
+
+**立即测试，不要留到晚上**
+
+- [ ] 传 [] 时卡片区为空且空状态可见
+- [ ] 传一条数据时结果数为 1
+- [ ] Console 无 null 访问错误
+
+### 必做 2：接通组合筛选、重置和事件委托（150 分钟）
+
+**修改或创建这些文件**
+
+- `campus-activity-board/src/app.js`
+- `campus-activity-board/src/utils/activity-utils.js`
+- `campus-activity-board/index.html`
+
+**按顺序执行**
+
+1. 写 readFilters()，只返回 {keyword,type,availableOnly}，不在其中渲染页面。
+2. 写 updateView()：读取筛选条件，调用 Day 4 的 applyFilters，再统一渲染卡片、结果数和空状态。
+3. keyword 使用 input 事件，type 和 availableOnly 使用 change 事件；三个事件都只调用 updateView。
+4. resetFilters() 把关键词清空、类型改 all、checkbox 设 false，再调用一次 updateView。
+5. 在 #activity-list 上绑定一个 click，使用 closest([data-activity-id]) 事件委托，把点击的 id 写入 #selected-activity。
+
+**完成后应该看到**
+
+- 搜索 JavaScript 得 1 条
+- 类型技术得 2 条
+- 文艺+仅看有名额得 0 条和空状态
+- 重置恢复 6 条
+
+**立即测试，不要留到晚上**
+
+- [ ] 关键词前后空格仍匹配
+- [ ] 技术+有名额得到 2 条
+- [ ] 点击 id=4 卡片显示“已选择活动 4”
+- [ ] 动态重渲染后点击仍有效
+
+### 必做 3：用 DevTools 修复一个真实 DOM 故障（75 分钟）
+
+**修改或创建这些文件**
+
+- `campus-activity-board/practice/day-05-selector-fault/index.html`
+- `campus-activity-board/practice/day-05-selector-fault/app.js`
+- `campus-activity-board/src/app.js`
+- `notes/day-05.md`
+
+**按顺序执行**
+
+1. 先打开 practice/day-05-selector-fault：其中 HTML 是 #result-count，app.js 故意查询 #results-count；复现 null 错误。
+2. 按 Console 行号 → 故障 HTML 真实 id → 故障 app.js 选择器顺序收集证据，只改选择器。
+3. 回到主项目，在 updateView 的 result 产生后设断点，依次测试默认、技术、文艺+有名额，记录数组长度 6、2、0。
+4. 回归主项目的重置与事件委托，证明故障练习没有污染主实现。
+
+**完成后应该看到**
+
+- 选择器修复后全部交互恢复
+- 断点能看到三个固定长度
+- 笔记包含一次完整证据链
+
+**立即测试，不要留到晚上**
+
+- [ ] 再次临时写错 keyword id，能按同样方法恢复
+- [ ] Console 最终无红色错误
+
+### 必做 4：30 分钟理解栈和有效括号（30 分钟）
+
+**修改或创建这些文件**
+
+- `algorithms/day-05-valid-parentheses.js`
+- `notes/day-05.md`
+
+**按顺序执行**
+
+1. 算法严格计时 30 分钟：先写样例和思路，再编码；到点停止并记录 A-E 辅助等级，不挤占前端主线。
+2. 先画输入 ()[]{} 时栈的 push/pop；只实现基础版本。
+3. 若 30 分钟未完成，保留代码并写清卡在匹配映射还是栈空判断。
+
+**完成后应该看到**
+
+- ()[]{} 为 true
+- (] 为 false
+- 知道右括号到来时检查栈顶
+
+**立即测试，不要留到晚上**
+
+- [ ] ([)] 为 false
+- [ ] {[]} 为 true
+
+### 必做 5：完整页面回归和提交（30 分钟）
+
+**修改或创建这些文件**
+
+- `notes/day-05.md`
+
+**按顺序执行**
+
+1. 按固定路线执行：初始6→JavaScript1→技术2→文艺+有名额0→重置6→点击id4。
+2. 运行 Day 03+04 测试，确认 DOM 接入未修改纯函数。
+3. 提交 feat: connect activity filters to DOM。
+
+**完成后应该看到**
+
+- 固定路线全部通过
+- 测试和 Console 都干净
+
+**立即测试，不要留到晚上**
+
+- [ ] 375px 下交互后仍无横向滚动
+- [ ] 刷新后默认恢复 6 条
+
+
+## 有余力再做
+
+- 不做收藏、不做 localStorage；只在有余力时为结果数增加 aria-live。
+
+选做没有完成不进入欠账清单，也不影响当天通过。
+
+## 卡住时只执行这四步
+
+1. 复制完整错误信息，记录操作步骤、预期和实际结果。
+2. 只检查当天列出的文件，不跨目录乱改；每次只验证一个猜测。
+3. 独立排查 25 分钟仍无进展，再向 AI 提供错误、相关文件、已尝试方法和自己的猜测，只请求一个提示。
+4. 单个问题累计 40 分钟仍未解决，保留失败代码和排查记录，先继续不依赖该问题的任务；等当天全部学习结束后，再把问题放入统一审查。
+
+## 当天结束前固定检查
+
+- [ ] 今天列出的固定测试全部执行，不用“页面看起来没问题”代替。
+- [ ] Console 没有未解释的错误或警告；有意保留的错误已经写入记录。
+- [ ] 执行 `git diff`，学习者可以解释每一处修改。
+- [ ] 为每个必做任务标注：A 独立、B 提示后、C 参考局部示例、D 主要由 AI 生成、E 未完成。
+- [ ] 只提交今天的文件，提交信息与当天成果一致。
+
+## 当天全部学习结束后：资深前端统一审查（30 分钟）
+
+::: warning 只有完成全部学习任务和自测后才能开始
+检查者从这里才介入。学习过程中不提示、不提问、不注入故障，也不逐项验收。
 :::
 
-### 具体安排
+http://127.0.0.1:4174 和 DevTools
 
-- 手写一遍闭包计数器。
-- 写今天目标：能讲清 this 和原型链的基础。
+**检查操作**
 
+1. 执行固定用户路线
+2. 沿 readFilters→applyFilters→updateView→DOM 解释数据流
+3. 现场制造选择器错误并修复
+4. 点击动态卡片
 
-## 09:00-12:00 上午学习
+**正确结果与判断依据**
 
-::: tip 这一段学完要达到
-- 知道：this 有默认绑定、隐式绑定、显式绑定、new 绑定、箭头函数继承外层。
-- 理解：原型链是对象属性查找机制。
-- 学会：判断 `obj.fn()`、`fn()`、`fn.call()` 的 this。
-- 验收：能画出实例、构造函数、prototype 的关系。
-:::
+- 只有一套筛选逻辑
+- 事件委托在重渲染后有效
+- 能依据行号排错
 
-### 具体安排
+### 结果记录
 
-- 看 MDN this：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this
-  - 必看章节：函数上下文、类上下文、箭头函数、`call/apply/bind` 相关说明。
-  - 读完要会：看到 `obj.fn()`、`fn()`、`fn.call(obj)` 能判断 `this`。
-- 看 MDN 原型链：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-  - 必看章节：继承属性、原型链、构造函数、`Object.create()`、性能和实践建议。
-  - 读完要会：能说出对象找属性会先找自己，再沿着原型链往上找。
-- 看 MDN class：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Classes
-  - 必看章节：类声明、构造函数、实例方法、静态方法、继承。
-  - 读完要会：知道 `class` 是更清晰的写法，底层仍和原型机制有关。
-- 重点记：this 绑定规则、prototype、class 只是更舒服的写法。
-
-
-## 12:00-14:00 中午轻复盘
-
-::: tip 这一段学完要达到
-- 知道：class 本质上仍然基于原型。
-- 理解：class 是更清晰的面向对象写法，不是完全新机制。
-- 学会：把构造函数写法改成 class 写法。
-- 验收：写一张原型链图。
-:::
-
-### 具体安排
-
-- 看 JavaScript.info 原型继承：https://zh.javascript.info/prototype-inheritance
-  - 必看小节：`[[Prototype]]`、读取属性、写入不走原型、`this` 的值。
-  - 读完要会：能画出实例、构造函数、`prototype` 三者关系。
-- 画一张原型链图。
-
-
-## 14:00-18:00 下午项目
-
-::: tip 这一段学完要达到
-- 知道：业务对象要有稳定字段，比如用户的 id、name、role。
-- 理解：后面学 TS 时，这些字段会变成 interface。
-- 学会：给用户 mock 数据补字段。
-- 验收：用户管理页能显示新增字段。
-:::
-
-### 具体安排
-
-- 在 `src/types/user.ts` 看接口结构，但先不用深究 TS。
-- 用 JS 思维理解 User：id、username、nickname、role。
-- 用户管理页增加 mock 字段：email、createdAt。
-
-
-## 19:30-21:00 晚上算法
-
-::: tip 这一段学完要达到
-- 知道：哈希题常用 Set 去重、Map 计数。
-- 理解：快乐数用 Set 判断循环。
-- 学会：用 Set 检测重复状态。
-- 验收：能解释为什么会进入循环。
-:::
-
-### 具体安排
-
-- 刷 LeetCode 202 快乐数：https://leetcode.cn/problems/happy-number/
-  - 做题步骤：先读题目描述、示例、约束；自己写 20-30 分钟；能 AC 后再看题解优化。
-  - 提交后要补：时间复杂度、空间复杂度、一个容易错的边界条件。
-- 刷 LeetCode 1 两数之和复刷：https://leetcode.cn/problems/two-sum/
-  - 做题步骤：先读题目描述、示例、约束；自己写 20-30 分钟；能 AC 后再看题解优化。
-  - 提交后要补：时间复杂度、空间复杂度、一个容易错的边界条件。
-
-
-## 21:00-22:30 夜间输出
-
-::: tip 这一段学完要达到
-- 知道：this 和原型链要能画图解释。
-- 理解：背结论不如会判断调用场景。
-- 学会：总结面试回答模板。
-- 验收：写完《this 和原型链面试版解释》。
-:::
-
-### 具体安排
-
-- 写笔记：《this 和原型链面试版解释》。
-- Git commit：`feat: extend user mock data`
-- 当天产出：用户数据字段更完整。
-
-
+- **通过：** 固定测试通过，学习者能指出代码位置并说明数据变化；现场修改只需少量提示。
+- **部分通过：** 功能可运行，但固定边界失败或关键代码解释不清；只把具体失败项放入最近巩固日。
+- **未通过：** 起始项目无法运行、主要实现不能解释或固定测试大面积失败；下一天先降低选做和新内容，不当晚加时。
