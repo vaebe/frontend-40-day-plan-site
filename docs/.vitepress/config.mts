@@ -13,7 +13,7 @@ export default defineConfig({
     sidebar: [
       { text: '总览', link: '/overview' },
       { text: '前期准备', link: '/preparation' },
-      { text: '40 天学习计划', collapsed: false, items: [
+      { text: "前端基础学习", collapsed: false, items: [
           { text: "第 1 天：低压力基线、Git 与第一次排错", link: "/days/day-01/" },
           { text: "第 2 天：HTML 与 CSS：完成响应式活动页", link: "/days/day-02/" },
           { text: "第 3 天：JavaScript 数据、对象与基础函数", link: "/days/day-03/" },
@@ -23,18 +23,26 @@ export default defineConfig({
           { text: "第 7 天：第一周轻量复盘与证据验收", link: "/days/day-07/" },
           { text: "第 8 天：异步、Promise 与接口状态", link: "/days/day-08/" },
           { text: "第 9 天：事件循环、模块化与 DevTools", link: "/days/day-09/" },
-          { text: "第 10 天：Vue 3 启动、模板与响应式状态", link: "/days/day-10/" },
-          { text: "第 11 天：computed、watch 与表单状态", link: "/days/day-11/" },
-          { text: "第 12 天：组件拆分、Props、Emits 与插槽", link: "/days/day-12/" },
-          { text: "第 13 天：Vue 小应用独立整合", link: "/days/day-13/" },
-          { text: "第 14 天：第二周轻量复盘与无 AI 验收", link: "/days/day-14/" },
-          { text: "第 15 天：TypeScript 最小基础：类型服务业务", link: "/days/day-15/" },
-          { text: "第 16 天：对象类型、接口、联合类型与收窄", link: "/days/day-16/" },
-          { text: "第 17 天：Vue 中的 TypeScript：Props、Emits 与接口数据", link: "/days/day-17/" },
+      ]},
+      { text: "TypeScript 基础学习", collapsed: false, items: [
+          { text: "第 10 天：TypeScript 基础：类型、函数与 unknown", link: "/days/day-10/" },
+          { text: "第 11 天：TypeScript 进阶基础：接口、联合类型与泛型", link: "/days/day-11/" },
+      ]},
+      { text: "Vue 3 基础学习", collapsed: false, items: [
+          { text: "第 12 天：Vue 3 + TypeScript：启动、模板与响应式状态", link: "/days/day-12/" },
+          { text: "第 13 天：computed、watch 与组合筛选", link: "/days/day-13/" },
+          { text: "第 14 天：组件拆分、Props、Emits 与插槽", link: "/days/day-14/" },
+          { text: "第 15 天：Vue 小应用、异步状态与独立整合", link: "/days/day-15/" },
+          { text: "第 16 天：Vue 基础轻量复盘与无 AI 验收", link: "/days/day-16/" },
+          { text: "第 17 天：在 Vue 中落地 TypeScript 数据与组件契约", link: "/days/day-17/" },
+      ]},
+      { text: "Vue 生态与工程化", collapsed: false, items: [
           { text: "第 18 天：Vue Router：先完成页面导航骨架", link: "/days/day-18/" },
           { text: "第 19 天：Pinia、会话状态与路由守卫", link: "/days/day-19/" },
           { text: "第 20 天：fetch、MSW 与请求错误整合", link: "/days/day-20/" },
           { text: "第 21 天：第三周轻量复盘与工程验收", link: "/days/day-21/" },
+      ]},
+      { text: "综合项目实战", collapsed: false, items: [
           { text: "第 22 天：现有原型审计与后续范围冻结", link: "/days/day-22/" },
           { text: "第 23 天：登录闭环、角色路由与权限边界", link: "/days/day-23/" },
           { text: "第 24 天：活动列表：查询、分页与完整页面状态", link: "/days/day-24/" },
@@ -49,6 +57,8 @@ export default defineConfig({
           { text: "第 33 天：Vitest：给关键逻辑建立安全网", link: "/days/day-33/" },
           { text: "第 34 天：Vercel 部署与生产故障演练", link: "/days/day-34/" },
           { text: "第 35 天：第五周轻量复盘与项目终验", link: "/days/day-35/" },
+      ]},
+      { text: "面试准备与最终验收", collapsed: false, items: [
           { text: "第 36 天：HTTP、缓存、浏览器与安全边界", link: "/days/day-36/" },
           { text: "第 37 天：JavaScript、Vue 与前端手写复现", link: "/days/day-37/" },
           { text: "第 38 天：固定故障排查与项目表达", link: "/days/day-38/" },

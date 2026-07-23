@@ -2,22 +2,23 @@
 
 这部分只在开始第 1 天之前完成一次，不计入 40 天学习时间。完成后，后续每天直接打开当天页面，从“第 1 步：运行当天命令”开始。
 
-## 1. 认识三个固定位置
+## 1. 认识四个固定位置
 
 整个计划只涉及下面三个位置：
 
 | 名称 | 实际位置 | 用途 |
 | --- | --- | --- |
 | 计划站点根目录 | `frontend-40-day-plan-site` | 查看计划、运行每日准备命令 |
-| 学习工作区 | `frontend-40-day-learning-lab` | 保存第 1～9 天练习、学习记录和 Git 历史 |
-| Vue 正式项目 | `frontend-40-day-learning-lab/campus-growth-hub` | 第 10～40 天持续维护的唯一项目和 npm 依赖 |
+| 学习工作区 | `frontend-40-day-learning-lab` | 承载全部学习成果和 Git 历史；第 1～9 天代码直接放在这里 |
+| TypeScript 基础练习 | `frontend-40-day-learning-lab/typescript-foundations` | 第 10～11 天独立学习 TypeScript，不启动 Vue |
+| Vue 正式项目 | `frontend-40-day-learning-lab/campus-growth-hub` | 第 12～40 天持续维护的唯一 Vue 3 + TypeScript 项目 |
 
 学习工作区和计划站点是**同级文件夹**。`frontend-40-day-learning-lab` 不需要手动创建，第 1 天的准备命令会自动创建它。
 
-这样安排是因为 Vue 正式项目需要执行 `npm install`。把它放进计划站点内部，Node.js 可能向上查找到计划站点的依赖，也容易把两份 Git 记录和命令位置混在一起。
+这样安排是因为 TypeScript 练习和 Vue 正式项目都需要执行 `npm install`。它们各自拥有 package.json，不能在学习工作区根目录混装依赖，更不能放进计划站点内部。
 
 ::: warning 只保留一份工作区
-不要在桌面、下载目录或其他位置再创建 `frontend-40-day-learning-lab` 或 `campus-growth-hub`。否则后面很容易修改错项目。
+不要在桌面、下载目录或其他位置再创建 `frontend-40-day-learning-lab`、`typescript-foundations` 或 `campus-growth-hub`。否则后面很容易修改错项目。
 :::
 
 ## 2. 在正确位置打开终端
@@ -83,9 +84,10 @@ pnpm learner:prepare 01
 | --- | --- |
 | `day-01/html/index.html` | `frontend-40-day-learning-lab/day-01/html/index.html` |
 | `notes/day-05.md` | `frontend-40-day-learning-lab/notes/day-05.md` |
+| `typescript-foundations/src/01-values.ts` | `frontend-40-day-learning-lab/typescript-foundations/src/01-values.ts` |
 | `campus-growth-hub/src/App.vue` | `frontend-40-day-learning-lab/campus-growth-hub/src/App.vue` |
 
-从第 10 天开始，绝大多数代码都位于 `campus-growth-hub`，但每日准备命令仍然从计划站点根目录运行。
+第 10～11 天代码位于 `typescript-foundations`，从第 12 天开始绝大多数代码位于 `campus-growth-hub`；每日准备命令始终从计划站点根目录运行。
 
 ## 7. 理解“终端 A”和“终端 B”
 

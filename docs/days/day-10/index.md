@@ -1,13 +1,13 @@
 ---
-title: 第 10 天：Vue 3 启动、模板与响应式状态
+title: 第 10 天：TypeScript 基础：类型、函数与 unknown
 ---
 
-# 第 10 天：Vue 3 启动、模板与响应式状态
+# 第 10 天：TypeScript 基础：类型、函数与 unknown
 
 ::: tip 今天只认这个结果
-**阶段：** JavaScript 与 Vue 入门<br>
+**阶段：** TypeScript 基础学习<br>
 **时间：** 正常学习日（6 小时净学习 + 30 分钟验收）<br>
-**第一项成果：** npm run dev 无报错
+**第一项成果：** 能说出类型推断不是把变量变成 any。
 :::
 
 > 正常日的 6 小时是净学习时间，最后统一审查的 30 分钟另计。当天的学习任务和自测全部由学习者独立完成，过程中不接受提示、故障注入或逐项检查。每学习 45～60 分钟离开屏幕休息 10～15 分钟；未完成内容不靠熬夜补。
@@ -19,7 +19,8 @@ title: 第 10 天：Vue 3 启动、模板与响应式状态
 ```bash
 pnpm learner:prepare 10
 cd ../frontend-40-day-learning-lab
-npm --prefix campus-growth-hub install
+npm --prefix typescript-foundations install
+npm --prefix typescript-foundations run type-check
 git status
 ```
 
@@ -29,121 +30,136 @@ git status
 
 ### 2. 打开这些文件或页面
 
-- `campus-growth-hub/src/App.vue`
-- `campus-growth-hub/src/main.js`
-- `campus-growth-hub/src/data/activities.js`
-- `campus-growth-hub/notes/day-10.md`
+- `typescript-foundations/package.json`
+- `typescript-foundations/tsconfig.json`
+- `typescript-foundations/src/01-values.ts`
+- `typescript-foundations/src/02-functions.ts`
+- `typescript-foundations/notes/day-10.md`
 
 ### 3. 开始前必须确认
 
-- [ ] 每日准备命令已生成 Vue + JavaScript 的 campus-growth-hub 工程、CounterPractice、活动数据、HomeView 骨架、notes/day-10.md 和算法空白文件；不会覆盖已存在的学习成果。
-- [ ] 在终端 A 从当前 frontend-40-day-learning-lab 运行 npm --prefix campus-growth-hub run dev 并保持运行；终端 B 留在同一目录，构建使用 npm --prefix campus-growth-hub run build。
-- [ ] 浏览器地址以终端 A 输出为准；campus-growth-hub 是唯一正式项目。
+- [ ] 每日准备命令已生成独立的 typescript-foundations 练习目录；今天不创建 Vue 项目。
+- [ ] 所有 npm 依赖只安装在 typescript-foundations 内，不在学习工作区根目录运行 npm install。
+- [ ] 终端保持在 frontend-40-day-learning-lab；命令统一使用 npm --prefix typescript-foundations。
 
 ### 4. 第一件具体工作
 
-打开 `campus-growth-hub/src/App.vue`，开始执行“创建、清理并理解最小 Vue 应用”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
+打开 `typescript-foundations/src/01-values.ts`，开始执行“理解 TypeScript 的作用、推断与基础类型”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
 
 ## 今日时间表
 
 | 顺序 | 必做任务 | 净学习时间 |
 | --- | --- | ---: |
-| 1 | 创建、清理并理解最小 Vue 应用 | 95 分钟 |
-| 2 | 固定首页与响应式筛选 | 160 分钟 |
-| 3 | 移动零、构建与无 AI 复现 | 105 分钟 |
+| 1 | 理解 TypeScript 的作用、推断与基础类型 | 90 分钟 |
+| 2 | 给函数、数组处理和返回值建立类型边界 | 120 分钟 |
+| 3 | 区分 unknown、any 与运行时校验 | 120 分钟 |
+| 4 | 30 分钟算法：用类型写两数之和 | 30 分钟 |
 | 统一审查 | 全部学习任务和自测结束后，执行页面底部答案卡 | 另计 30 分钟 |
 
 学习任务合计：**360 分钟**。只在全部必做通过后考虑选做。
 
 ## 今日必做
 
-### 必做 1：创建、清理并理解最小 Vue 应用（95 分钟）
+### 必做 1：理解 TypeScript 的作用、推断与基础类型（90 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/App.vue`
-- `campus-growth-hub/src/main.js`
-- `campus-growth-hub/src/components/CounterPractice.vue`
-- `campus-growth-hub/notes/day-10.md`
+- `typescript-foundations/src/01-values.ts`
+- `typescript-foundations/notes/day-10.md`
 
 **按顺序执行**
 
-1. 确认浏览器显示 Vite/Vue 默认页后，记录启动命令与地址。
-2. 删除 HelloWorld 引用和默认演示内容，但保留 main.js 的 createApp(App).mount(#app)。
-3. CounterPractice.vue：script setup 导入 ref；const count=ref(0)；button @click 让 count.value++；template 显示 count。
-4. 在 App.vue 引入 CounterPractice；点击三次看到 3；用箭头写 ref 定义→模板读取→事件修改→视图更新。
+1. 先运行 type-check，确认空白 starter 可以通过。
+2. 依次声明 string、number、boolean、string[] 和包含 id/title/capacity 的对象；每项先让编辑器推断，再把鼠标悬停看到的类型写入笔记。
+3. 制造三次错误：把 number 赋给 string、数组加入 boolean、访问不存在字段；逐条复制错误信息并用自己的话解释。
+4. 删除错误代码后重跑 type-check；写出“类型错误发生在运行前，业务错误仍需要测试”这一区别。
 
 **完成后应该看到**
 
-- npm run dev 无报错
-- 页面显示计数器
-- 点击三次为 3
-- 能指出 main.js 的挂载点
+- 能说出类型推断不是把变量变成 any。
+- 三条错误都有原始信息、原因和修复。
 
 **立即测试，不要留到晚上**
 
-- [ ] 刷新后计数归 0
-- [ ] 临时改 +2 后一次点击为 2
+- [ ] npm --prefix typescript-foundations run type-check
+- [ ] 临时把 capacity 改成字符串时必须失败，恢复后通过
 
-### 必做 2：固定首页与响应式筛选（160 分钟）
+### 必做 2：给函数、数组处理和返回值建立类型边界（120 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/data/activities.js`
-- `campus-growth-hub/src/views/HomeView.vue`
-- `campus-growth-hub/src/App.vue`
-- `campus-growth-hub/src/style.css`
+- `typescript-foundations/src/02-functions.ts`
+- `typescript-foundations/src/fixtures.ts`
+- `typescript-foundations/src/02-functions.test.ts`
 
 **按顺序执行**
 
-1. src/data/activities.js 写入：export const activities = [<br>  { id: 1, title: '前端入门工作坊', type: '技术', capacity: 30, registered: 18, startTime: '2026-08-01T09:00:00', location: '教学楼 A101' },<br>  { id: 2, title: '校园歌手赛', type: '文艺', capacity: 100, registered: 100, startTime: '2026-08-03T19:00:00', location: '大学生活动中心' },<br>  { id: 3, title: '晨跑打卡', type: '体育', capacity: 50, registered: 22, startTime: '2026-07-30T07:00:00', location: '东操场' },<br>  { id: 4, title: '简历交流会', type: '就业', capacity: 40, registered: 35, startTime: '2026-08-05T14:00:00', location: '图书馆报告厅' },<br>  { id: 5, title: 'JavaScript 读书会', type: '技术', capacity: 20, registered: 8, startTime: '2026-08-02T15:00:00', location: '教学楼 B203' },<br>  { id: 6, title: '志愿服务说明会', type: '公益', capacity: 60, registered: 12, startTime: '2026-08-06T10:00:00', location: '综合楼 201' },<br>]
-2. 建立 views/HomeView.vue；script setup 中 import activities，定义 searchText=ref('')、bookmarkedIds=ref([])，先用函数 filteredActivities() 返回标题匹配结果；Day 11 再改 computed。
-3. template 固定包含 h1“Campus Growth Hub”、搜索 input、结果数量、活动 article 列表；每张卡显示标题/类型/地点/剩余名额。
-4. 收藏按钮点击调用 toggleBookmark(id)：存在则移除，不存在则加入；按钮文字在“收藏/已收藏”之间切换。
-5. App.vue 只渲染 HomeView；style.css 做桌面三列、375px 单列，不做复杂主题。
+1. 定义 Activity 基础结构：id/title/type/capacity/enrolledCount；建立三条固定活动数据。
+2. 实现 getRemaining(activity): number、findById(list,id): Activity | undefined、filterByType(list,type): Activity[]。
+3. 先故意漏写返回分支，观察 undefined 相关错误；再用明确的联合类型修复，不使用 as any。
+4. 运行固定测试：剩余人数、存在/不存在 id、all 返回全部、tech 返回两条；失败时只改当前函数。
 
 **完成后应该看到**
 
-- 初始 6 张卡
-- 输入 JavaScript 后 1 张
-- 收藏 id=5 后按钮显示已收藏
-- 375px 单列无横向滚动
+- 三个函数输入和输出都能从签名读懂。
+- id 不存在时明确得到 undefined。
 
 **立即测试，不要留到晚上**
 
-- [ ] 清空搜索恢复 6 张
-- [ ] 连续点击收藏两次恢复未收藏
-- [ ] Console 无 Vue warning
+- [ ] npm --prefix typescript-foundations run test:day10
+- [ ] findById(activities,'missing') 返回 undefined
+- [ ] filterByType([],'all') 返回 []
 
-### 必做 3：移动零、构建与无 AI 复现（105 分钟）
+### 必做 3：区分 unknown、any 与运行时校验（120 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/algorithms/day-10-move-zeroes.js`
-- `campus-growth-hub/notes/day-10.md`
+- `typescript-foundations/src/03-unknown.ts`
+- `typescript-foundations/src/03-unknown.test.ts`
+- `typescript-foundations/notes/day-10.md`
 
 **按顺序执行**
 
-1. 打开 https://leetcode.cn/problems/move-zeroes/；使用快慢指针原地把非零数前移，再补零。
-2. 样例 [0,1,0,3,12] 得 [1,3,12,0,0]；写 O(n)/O(1)。
-3. 在 algorithms/ 对应文件中保留：题意、两个样例、自己的第一版、最终代码、复杂度、AI 辅助等级；不要只保存 LeetCode 通过截图。
-4. 关闭资料在 CounterPractice.vue 空白重写 ref 与按钮；在终端 B 运行 npm --prefix campus-growth-hub run build；提交 feat: bootstrap vue activity app。
+1. 把 JSON.parse 后的外部输入先视为 unknown；直接读取 input.data，保存类型错误。
+2. 实现 isRecord(value) 与 parseActivity(value)：依次检查对象、id、title、capacity、enrolledCount，再返回 Activity。
+3. 分别传入正确对象、null、缺 title、capacity 为字符串；错误输入固定抛出“活动数据格式错误”。
+4. 写一段对比：any 会跳过检查，unknown 强迫先验证；本计划业务代码默认不用 any 逃避错误。
 
 **完成后应该看到**
 
-- 算法原地修改正确
-- npm --prefix campus-growth-hub run build 成功
-- 无 AI 计数器可运行
+- 正确对象可以解析。
+- 四类错误输入不会悄悄进入业务函数。
 
 **立即测试，不要留到晚上**
 
-- [ ] [0] 保持 [0]
-- [ ] [1,2] 保持 [1,2]
+- [ ] npm --prefix typescript-foundations run test:unknown
+- [ ] 源码中没有 as any 或 @ts-ignore
+
+### 必做 4：30 分钟算法：用类型写两数之和（30 分钟）
+
+**修改或创建这些文件**
+
+- `typescript-foundations/algorithms/day-10-two-sum.ts`
+- `typescript-foundations/notes/day-10.md`
+
+**按顺序执行**
+
+1. 算法严格计时 30 分钟：先写样例与思路，20 分钟仍无进展只看一个提示；结束时保存代码、边界、复杂度和 AI 辅助等级。
+2. 函数签名固定为 twoSum(nums: number[], target: number): number[]；先写暴力解法。
+3. 验证 [2,7,11,15],9 得 [0,1]，无答案得到 []。
+
+**完成后应该看到**
+
+- 函数参数和返回值无 any。
+
+**立即测试，不要留到晚上**
+
+- [ ] npm --prefix typescript-foundations run type-check
 
 
 ## 有余力再做
 
-- 给收藏按钮增加 aria-pressed；不做持久化。
+- 有余力只整理当天错误表，不学习 enum、装饰器或高级泛型。
 
 选做没有完成不进入欠账清单，也不影响当天通过。
 
@@ -168,20 +184,19 @@ git status
 检查者从这里才介入。学习过程中不提示、不提问、不注入故障，也不逐项验收。
 :::
 
-保持终端 A 的 npm --prefix campus-growth-hub run dev 运行，打开首页；再打开 campus-growth-hub/src/views/HomeView.vue。
+typescript-foundations/src → notes/day-10.md。
 
 **检查操作**
 
-1. 搜索 JavaScript
-2. 收藏唯一结果
-3. 口述 ref 更新流程
-4. 现场把收藏按钮文案改为“取消收藏”
+1. 运行 type-check 和两组固定测试。
+2. 抽一个基础类型错误让学习者解释。
+3. 打开 unknown 校验函数说明每个分支。
 
 **正确结果与判断依据**
 
-- 筛选与收藏立即更新
-- 无 Console warning
-- 能解释 v-for key 使用 activity.id
+- 命令全部通过。
+- 能解释 unknown 与 any 的差别。
+- 能从函数签名说出输入输出。
 
 ### 结果记录
 

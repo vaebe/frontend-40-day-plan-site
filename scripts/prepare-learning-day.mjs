@@ -65,10 +65,12 @@ if (day === 4) await requireFiles(['campus-activity-board/src/data/activities.js
 if (day === 5) await requireFiles(['campus-activity-board/index.html', 'campus-activity-board/styles.css', 'campus-activity-board/src/app.js', 'campus-activity-board/src/data/activities.js', 'campus-activity-board/src/utils/activity-utils.js', 'campus-activity-board/tests/day-03.test.mjs', 'campus-activity-board/tests/day-04.test.mjs'])
 if (day === 6) await requireFiles(['campus-activity-board/index.html', 'campus-activity-board/src/app.js', 'campus-activity-board/src/data/activities.js', 'campus-activity-board/src/utils/activity-utils.js', 'campus-activity-board/tests/day-03.test.mjs', 'campus-activity-board/tests/day-04.test.mjs'])
 if (day === 7) await requireFiles(['campus-activity-board/index.html', 'campus-activity-board/src/app.js', 'campus-activity-board/src/utils/activity-utils.js', 'campus-activity-board/src/rebuild/day-06-filter.js', 'campus-activity-board/src/rebuild/day-06-dom.js', 'notes/day-06.md'])
-if (day === 11) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/data/activities.js'])
-if (day === 12) await requireFiles(['campus-growth-hub/src/views/HomeView.vue'])
-if (day === 13) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/components/ActivityCard.vue'])
-if (day === 14) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/services/activityApi.js'])
+if (day === 11) await requireFiles(['typescript-foundations/package.json', 'typescript-foundations/tsconfig.json', 'typescript-foundations/src/01-values.ts', 'typescript-foundations/src/02-functions.ts'])
+if (day === 13) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/data/activities.ts'])
+if (day === 14) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/components/ComputedWatchLab.vue'])
+if (day === 15) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/components/ActivityCard.vue', 'campus-growth-hub/src/components/SearchBar.vue'])
+if (day === 16) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/services/activityApi.ts'])
+if (day === 17) await requireFiles(['campus-growth-hub/src/views/HomeView.vue', 'campus-growth-hub/src/components/ActivityCard.vue', 'campus-growth-hub/src/data/activities.ts'])
 await put(`notes/day-${String(day).padStart(2, '0')}.md`, note(day))
 
 const activities = `export const activities = [
@@ -241,54 +243,86 @@ if (day === 9) {
   await put('event-loop-lab/predictions.md', '# 先写预测，再运行\n\n- 第一题顺序：\n- 第二题顺序：\n- 原因：\n')
 }
 
-if (day >= 11) {
+if (day >= 12) {
   await put(`campus-growth-hub/notes/day-${String(day).padStart(2, '0')}.md`, note(day))
 }
 
 if (day === 10) {
-  const root = 'campus-growth-hub'
-  await put(`${root}/package.json`, JSON.stringify({ private: true, version: '0.0.0', type: 'module', scripts: { dev: 'vite', build: 'vite build', preview: 'vite preview' }, dependencies: { '@vitejs/plugin-vue': '^6.0.0', vite: '^7.0.0', vue: '^3.5.0' }, devDependencies: {} }, null, 2))
-  await put(`${root}/index.html`, '<!doctype html><html lang="zh-CN"><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><body><div id="app"></div><script type="module" src="/src/main.js"></script></body></html>')
-  await put(`${root}/vite.config.js`, `import{defineConfig}from'vite';import vue from'@vitejs/plugin-vue';export default defineConfig({plugins:[vue()]})\n`)
-  await put(`${root}/src/main.js`, `import{createApp}from'vue';import App from'./App.vue';import'./style.css';createApp(App).mount('#app')\n`)
-  await put(`${root}/src/App.vue`, `<script setup>\nimport HomeView from'./views/HomeView.vue'\nimport CounterPractice from'./components/CounterPractice.vue'\n</script>\n<template><CounterPractice/><HomeView/></template>\n`)
-  await put(`${root}/src/components/CounterPractice.vue`, `<script setup>\nimport{ref}from'vue'\nconst count=ref(0)\n</script>\n<template><button @click="count++">计数 {{count}}</button></template>\n`)
-  await put(`${root}/src/data/activities.js`, activities)
-  await put(`${root}/src/views/HomeView.vue`, `<script setup>\nimport{computed,ref}from'vue'\nimport{activities}from'../data/activities.js'\nconst keyword=ref('');const filteredActivities=computed(()=>activities.filter(item=>item.title.includes(keyword.value)))\n</script>\n<template><main><h1>Campus Growth Hub</h1><input v-model="keyword" placeholder="搜索活动"><article v-for="item in filteredActivities" :key="item.id">{{item.title}}</article></main></template>\n`)
-  await put(`${root}/src/style.css`, `*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#f5f7fb}main{max-width:960px;margin:auto;padding:24px}article{margin:12px 0;padding:18px;background:white}`)
+  const root = 'typescript-foundations'
+  await put(`${root}/package.json`, JSON.stringify({ private: true, type: 'module', scripts: { 'type-check': 'tsc --noEmit', 'test:day10': 'tsx --test src/02-functions.test.ts', 'test:unknown': 'tsx --test src/03-unknown.test.ts', 'test:models': 'tsx --test src/04-models.test.ts', 'test:state': 'tsx --test src/05-request-state.test.ts', 'test:generics': 'tsx --test src/06-generics.test.ts' }, devDependencies: { '@types/node': '^24.0.0', typescript: '^5.9.0', tsx: '^4.20.0' } }, null, 2))
+  await put(`${root}/tsconfig.json`, JSON.stringify({ compilerOptions: { target: 'ES2020', module: 'ESNext', moduleResolution: 'Bundler', types: ['node'], strict: true, noEmit: true, skipLibCheck: true }, include: ['src/**/*.ts', 'algorithms/**/*.ts'] }, null, 2))
+  await put(`${root}/src/01-values.ts`, `const title = '前端入门工作坊'\nconst capacity = 30\nconst active = true\nconst tags = ['前端', '校园']\nconst activity = { id: 'a001', title, capacity }\nconsole.log({ title, capacity, active, tags, activity })\n`)
+  await put(`${root}/src/fixtures.ts`, `export interface Activity { id:string;title:string;type:string;capacity:number;enrolledCount:number }\nexport const activities:Activity[]=[{id:'a001',title:'前端入门工作坊',type:'tech',capacity:30,enrolledCount:18},{id:'a002',title:'校园歌手赛',type:'art',capacity:100,enrolledCount:100},{id:'a003',title:'JavaScript 读书会',type:'tech',capacity:20,enrolledCount:8}]\n`)
+  await put(`${root}/src/02-functions.ts`, `import type{Activity}from'./fixtures'\nexport function getRemaining(activity:Activity):number{throw new Error('TODO')}\nexport function findById(list:Activity[],id:string):Activity|undefined{throw new Error('TODO')}\nexport function filterByType(list:Activity[],type:string):Activity[]{throw new Error('TODO')}\n`)
+  await put(`${root}/src/02-functions.test.ts`, `import test from'node:test';import assert from'node:assert/strict';import{activities}from'./fixtures';import{filterByType,findById,getRemaining}from'./02-functions';test('day10 functions',()=>{assert.equal(getRemaining(activities[0]),12);assert.equal(findById(activities,'missing'),undefined);assert.equal(filterByType(activities,'tech').length,2);assert.equal(filterByType(activities,'all').length,3)})\n`)
+  await put(`${root}/src/03-unknown.ts`, `import type{Activity}from'./fixtures'\nexport function isRecord(value:unknown):value is Record<string,unknown>{return typeof value==='object'&&value!==null}\nexport function parseActivity(value:unknown):Activity{throw new Error('TODO：活动数据格式错误')}\n`)
+  await put(`${root}/src/03-unknown.test.ts`, `import test from'node:test';import assert from'node:assert/strict';import{parseActivity}from'./03-unknown';test('unknown parser',()=>{assert.equal(parseActivity({id:'a1',title:'活动',type:'tech',capacity:20,enrolledCount:3}).id,'a1');for(const value of[null,{id:'a1'},{id:'a1',title:'活动',type:'tech',capacity:'20',enrolledCount:3}])assert.throws(()=>parseActivity(value),/活动数据格式错误/)})\n`)
+  await put(`${root}/algorithms/day-10-two-sum.ts`, `export function twoSum(nums:number[],target:number):number[]{/* TODO */return[]}\n`)
   await put(`${root}/notes/day-10.md`, note(10))
-  await put(`${root}/algorithms/day-10-move-zeroes.js`, '// TODO：移动零\n')
 }
 
 if (day === 11) {
-  await put('campus-growth-hub/src/components/ComputedWatchLab.vue', `<script setup>\nimport{computed,ref,watch}from'vue'\nconst firstName=ref('');const lastName=ref('');const fullName=computed(()=>firstName.value+' '+lastName.value);watch(fullName,value=>localStorage.setItem('day11.fullName',value))\n</script>\n<template><input v-model="firstName"><input v-model="lastName"><p>{{fullName}}</p></template>\n`)
-  await put('campus-growth-hub/algorithms/day-11-merge-sorted-array.js', '// TODO：合并两个有序数组\n')
+  const root = 'typescript-foundations'
+  await put(`${root}/src/04-models.ts`, `export type UserRole='student'|'organizer';export interface User{id:string;name:string;role:UserRole}\nexport interface ActivityBase{id:string;title:string}\nexport type Activity=(ActivityBase&{mode:'online';meetingUrl:string})|(ActivityBase&{mode:'offline';location:string})\nexport function getActivityPlace(activity:Activity):string{return activity.mode==='online'?'线上':activity.location}\n`)
+  await put(`${root}/src/04-models.test.ts`, `import test from'node:test';import assert from'node:assert/strict';import{getActivityPlace,type Activity}from'./04-models';test('models',()=>{const online:Activity={id:'1',title:'分享',mode:'online',meetingUrl:'https://example.com'};const offline:Activity={id:'2',title:'跑步',mode:'offline',location:'东操场'};assert.equal(getActivityPlace(online),'线上');assert.equal(getActivityPlace(offline),'东操场')})\n`)
+  await put(`${root}/src/05-request-state.ts`, `export type RequestState<T>={status:'idle'}|{status:'loading'}|{status:'success';data:T}|{status:'empty'}|{status:'error';message:string}\nexport function assertNever(value:never):never{throw new Error('未处理状态:'+String(value))}\nexport function describeState(state:RequestState<unknown[]>):string{/* TODO */return''}\n`)
+  await put(`${root}/src/05-request-state.test.ts`, `import test from'node:test';import assert from'node:assert/strict';import{describeState}from'./05-request-state';test('states',()=>{assert.equal(describeState({status:'success',data:[1,2]}),'共 2 条');assert.equal(describeState({status:'error',message:'失败'}),'失败')})\n`)
+  await put(`${root}/src/06-generics.ts`, `export interface ApiResult<T>{code:number;message:string;data:T}\nexport interface PaginatedResult<T>{items:T[];total:number;page:number;pageSize:number}\nexport function unwrap<T>(result:ApiResult<T>):T{return result.data}\nexport function firstOrUndefined<T>(list:T[]):T|undefined{return list[0]}\n`)
+  await put(`${root}/src/06-generics.test.ts`, `import test from'node:test';import assert from'node:assert/strict';import{firstOrUndefined,unwrap}from'./06-generics';test('generics',()=>{assert.equal(unwrap({code:0,message:'ok',data:{id:'u1'}}).id,'u1');assert.equal(firstOrUndefined([]),undefined)})\n`)
+  await put(`${root}/algorithms/day-11-valid-parentheses.ts`, `export function isValid(input:string):boolean{/* TODO */return false}\n`)
+  await put(`${root}/notes/day-11.md`, note(11))
 }
 
 if (day === 12) {
-  const root = 'campus-growth-hub/src/components'
-  await put(`${root}/MessageParent.vue`, `<script setup>\nimport{ref}from'vue';import MessageChild from'./MessageChild.vue';const message=ref('未收到')\n</script><template><MessageChild text="来自父组件" @reply="message=$event"/><p>{{message}}</p></template>\n`)
-  await put(`${root}/MessageChild.vue`, `<script setup>\ndefineProps({text:String});const emit=defineEmits(['reply'])\n</script><template><button @click="emit('reply','已收到')">{{text}}</button></template>\n`)
-  await put(`${root}/BasePanel.vue`, `<template><section class="panel"><slot/></section></template><style scoped>.panel{padding:16px;border:1px solid #ccd5e5}</style>\n`)
-  await put(`${root}/SearchBar.vue`, `<script setup>\ndefineProps({modelValue:{type:String,default:''}});defineEmits(['update:modelValue'])\n</script><template><input :value="modelValue" @input="$emit('update:modelValue',$event.target.value)" placeholder="搜索活动"></template>\n`)
-  await put(`${root}/ActivityCard.vue`, `<script setup>\ndefineProps({activity:{type:Object,required:true},bookmarked:Boolean});defineEmits(['toggle-bookmark'])\n</script><template><article><h2>{{activity.title}}</h2><button @click="$emit('toggle-bookmark',activity.id)">{{bookmarked?'取消收藏':'收藏'}}</button></article></template>\n`)
-  await put(`${root}/EmptyState.vue`, '<template><p role="status">暂无符合条件的活动</p></template>\n')
-  await put('campus-growth-hub/algorithms/day-12-valid-parentheses.js', '// TODO：有效括号\n')
+  const root = 'campus-growth-hub'
+  await put(`${root}/package.json`, JSON.stringify({ private: true, version: '0.0.0', type: 'module', scripts: { dev: 'vite', build: 'vue-tsc --noEmit && vite build', preview: 'vite preview', 'type-check': 'vue-tsc --noEmit' }, dependencies: { vue: '^3.5.0' }, devDependencies: { '@vitejs/plugin-vue': '^6.0.0', vite: '^7.0.0', typescript: '^5.9.0', 'vue-tsc': '^3.0.0' } }, null, 2))
+  await put(`${root}/index.html`, '<!doctype html><html lang="zh-CN"><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><body><div id="app"></div><script type="module" src="/src/main.ts"></script></body></html>')
+  await put(`${root}/vite.config.ts`, `import{defineConfig}from'vite';import vue from'@vitejs/plugin-vue';export default defineConfig({plugins:[vue()]})\n`)
+  await put(`${root}/tsconfig.json`, JSON.stringify({ compilerOptions: { target: 'ES2020', module: 'ESNext', moduleResolution: 'Bundler', lib: ['ES2020', 'DOM', 'DOM.Iterable'], strict: true, skipLibCheck: true, isolatedModules: true, noEmit: true }, include: ['src/**/*.ts', 'src/**/*.vue', 'vite.config.ts'] }, null, 2))
+  await put(`${root}/src/vite-env.d.ts`, '/// <reference types="vite/client" />\n')
+  await put(`${root}/src/main.ts`, `import{createApp}from'vue';import App from'./App.vue';import'./style.css';createApp(App).mount('#app')\n`)
+  await put(`${root}/src/App.vue`, `<script setup lang="ts">\nimport HomeView from'./views/HomeView.vue'\n</script>\n<template><HomeView/></template>\n`)
+  await put(`${root}/src/components/CounterPractice.vue`, `<script setup lang="ts">\nimport{ref}from'vue';const count=ref(0)\n</script><template><button @click="count++">计数 {{count}}</button></template>\n`)
+  await put(`${root}/src/types/activity.ts`, `export interface Activity{id:string;title:string;type:string;capacity:number;enrolledCount:number;startTime:string;location:string}\n`)
+  await put(`${root}/src/data/activities.ts`, `import type{Activity}from'../types/activity'\nexport const activities:Activity[]=[{id:'1',title:'前端入门工作坊',type:'技术',capacity:30,enrolledCount:18,startTime:'2026-08-01T09:00:00',location:'教学楼 A101'},{id:'2',title:'校园歌手赛',type:'文艺',capacity:100,enrolledCount:100,startTime:'2026-08-03T19:00:00',location:'大学生活动中心'},{id:'3',title:'晨跑打卡',type:'体育',capacity:50,enrolledCount:22,startTime:'2026-07-30T07:00:00',location:'东操场'},{id:'4',title:'简历交流会',type:'就业',capacity:40,enrolledCount:35,startTime:'2026-08-05T14:00:00',location:'图书馆报告厅'},{id:'5',title:'JavaScript 读书会',type:'技术',capacity:20,enrolledCount:8,startTime:'2026-08-02T15:00:00',location:'教学楼 B203'},{id:'6',title:'志愿服务说明会',type:'公益',capacity:60,enrolledCount:12,startTime:'2026-08-06T10:00:00',location:'综合楼 201'}]\n`)
+  await put(`${root}/src/views/HomeView.vue`, `<script setup lang="ts">\nimport{ref}from'vue';import{activities}from'../data/activities';const keyword=ref('');function filteredActivities(){return activities.filter(item=>item.title.toLowerCase().includes(keyword.value.trim().toLowerCase()))}\n</script><template><main><h1>Campus Growth Hub</h1><label>搜索活动<input v-model="keyword"></label><p>找到 {{filteredActivities().length}} 个活动</p><section><article v-for="item in filteredActivities()" :key="item.id"><h2>{{item.title}}</h2><p>{{item.type}} · {{item.location}} · 剩余 {{item.capacity-item.enrolledCount}}</p></article></section></main></template>\n`)
+  await put(`${root}/src/style.css`, `*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#f5f7fb}main{max-width:1120px;margin:auto;padding:24px}section{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}article{padding:18px;background:white}@media(max-width:600px){section{grid-template-columns:1fr}}`)
+  await put(`${root}/algorithms/day-12-move-zeroes.ts`, 'export function moveZeroes(nums:number[]):void{/* TODO */}\n')
 }
 
 if (day === 13) {
-  await put('campus-growth-hub/src/practice/course-favorites/courses.js', `export const courses=[{id:1,title:'Vue 3'},{id:2,title:'JavaScript'},{id:3,title:'CSS'},{id:4,title:'Git'}]\n`)
-  await put('campus-growth-hub/src/practice/course-favorites/CourseFavorites.vue', `<script setup>\nimport{computed,ref}from'vue';import{courses}from'./courses.js';const keyword=ref('');const favorites=ref([]);const onlyFavorites=ref(false);const visible=computed(()=>courses.filter(c=>c.title.toLowerCase().includes(keyword.value.toLowerCase())&&(!onlyFavorites.value||favorites.value.includes(c.id))));function toggle(id){favorites.value=favorites.value.includes(id)?favorites.value.filter(x=>x!==id):[...favorites.value,id]}\n</script><template><input v-model="keyword"><label><input v-model="onlyFavorites" type="checkbox">只看收藏</label><article v-for="c in visible" :key="c.id">{{c.title}}<button @click="toggle(c.id)">收藏</button></article></template>\n`)
-  await put('campus-growth-hub/src/services/activityApi.js', `import{activities as seedActivities}from'../data/activities.js';export async function fetchActivities(mode='success',delay=800){await new Promise(r=>setTimeout(r,delay));if(mode==='error')throw new Error('活动加载失败');return mode==='empty'?[]:[...seedActivities]}\n`)
-  await put('campus-growth-hub/src/practice/async-state/AsyncActivityLab.vue', `<script setup>\nimport{ref}from'vue';import{fetchActivities}from'../../services/activityApi.js';const mode=ref('success'),status=ref('idle'),loadedActivities=ref([]),errorMessage=ref('');async function load(){status.value='loading';try{loadedActivities.value=await fetchActivities(mode.value);status.value=loadedActivities.value.length?'success':'empty'}catch(error){status.value='error';errorMessage.value=error.message}finally{loadedActivities.value=[]/* DAY13_INTENTIONAL_BUG */}}\n</script><template><select v-model="mode"><option>success</option><option>empty</option><option>error</option></select><button :disabled="status==='loading'" @click="load">加载</button><p>{{status}} {{errorMessage}}</p><article v-for="item in loadedActivities" :key="item.id">{{item.title}}</article></template>\n`)
-  await put('campus-growth-hub/algorithms/day-13-review.js', '// TODO：重做有效括号和移动零\n')
+  await put('campus-growth-hub/src/components/ComputedWatchLab.vue', `<script setup lang="ts">\nimport{computed,ref,watch}from'vue';const names=['Alice','Bob','Carol'];const keyword=ref('');const filteredNames=computed(()=>names.filter(name=>name.toLowerCase().includes(keyword.value.toLowerCase())));watch(keyword,value=>localStorage.setItem('demo-key',value))\n</script><template><input v-model="keyword"><p v-for="name in filteredNames" :key="name">{{name}}</p></template>\n`)
+  await put('campus-growth-hub/algorithms/day-13-merge-sorted-array.ts', '// TODO：合并有序数组\n')
 }
 
 if (day === 14) {
-  await put('campus-growth-hub/notes/week-02-review.md', note(14))
-  await put('campus-growth-hub/notes/vue-data-flow.md', '# Vue 数据流\n\nref → computed → template → event → ref\n')
-  await put('campus-growth-hub/notes/async-state-flow.md', '# 异步四态\n\nidle → loading → success / empty / error → retry\n')
-  await put('campus-growth-hub/algorithms/day-14-review.js', '// TODO：无 AI 重做本周最薄弱题。\n')
+  const root = 'campus-growth-hub/src/components'
+  await put(`${root}/MessageParent.vue`, `<script setup lang="ts">\nimport{ref}from'vue';import MessageChild from'./MessageChild.vue';const count=ref(0)\n</script><template><MessageChild message="来自父组件" :count="count" @increment="count++"/></template>\n`)
+  await put(`${root}/MessageChild.vue`, `<script setup lang="ts">\ndefineProps<{message:string;count:number}>();defineEmits<{increment:[]}>()\n</script><template><button @click="$emit('increment')">{{message}} {{count}}</button></template>\n`)
+  await put(`${root}/BasePanel.vue`, `<script setup lang="ts">defineProps<{title:string}>()</script><template><section><h2>{{title}}</h2><slot/></section></template>\n`)
+  await put(`${root}/SearchBar.vue`, `<script setup lang="ts">\ndefineProps<{keyword:string;selectedType:string;types:string[]}>();const emit=defineEmits<{ 'update:keyword':[value:string];'update:selectedType':[value:string];reset:[]}>();function updateKeyword(event:Event){emit('update:keyword',(event.target as HTMLInputElement).value)}\n</script><template><input :value="keyword" @input="updateKeyword"></template>\n`)
+  await put(`${root}/ActivityCard.vue`, `<script setup lang="ts">\nimport type{Activity}from'../types/activity';defineProps<{activity:Activity;bookmarked:boolean}>();defineEmits<{'toggle-bookmark':[id:string]}>()\n</script><template><article><h2>{{activity.title}}</h2><button @click="$emit('toggle-bookmark',activity.id)">{{bookmarked?'取消收藏':'收藏'}}</button></article></template>\n`)
+  await put(`${root}/EmptyState.vue`, '<template><p role="status">暂无符合条件的活动</p></template>\n')
+  await put('campus-growth-hub/algorithms/day-14-valid-parentheses.ts', '// TODO：有效括号\n')
+}
+
+if (day === 15) {
+  await put('campus-growth-hub/src/practice/course-favorites/courses.ts', `export const courses=[{id:1,title:'Vue 3'},{id:2,title:'JavaScript'},{id:3,title:'CSS'},{id:4,title:'Git'}]\n`)
+  await put('campus-growth-hub/src/practice/course-favorites/CourseFavorites.vue', `<script setup lang="ts">\nimport{computed,ref}from'vue';import{courses}from'./courses';const keyword=ref('');const favoriteIds=ref<number[]>([]);const onlyFavorites=ref(false);const visible=computed(()=>courses.filter(item=>item.title.toLowerCase().includes(keyword.value.toLowerCase())&&(!onlyFavorites.value||favoriteIds.value.includes(item.id))))\n</script><template><input v-model="keyword"><label><input v-model="onlyFavorites" type="checkbox">只看收藏</label><article v-for="item in visible" :key="item.id">{{item.title}}</article></template>\n`)
+  await put('campus-growth-hub/src/services/activityApi.ts', `import{activities}from'../data/activities';import type{Activity}from'../types/activity';export type LoadMode='success'|'empty'|'error';export async function fetchActivities(mode:LoadMode='success',delay=800):Promise<Activity[]>{await new Promise(resolve=>setTimeout(resolve,delay));if(mode==='error')throw new Error('活动加载失败');return mode==='empty'?[]:[...activities]}\n`)
+  await put('campus-growth-hub/src/practice/async-state/AsyncActivityLab.vue', `<script setup lang="ts">\nimport{ref}from'vue';import{fetchActivities,type LoadMode}from'../../services/activityApi';import type{Activity}from'../../types/activity';const mode=ref<LoadMode>('success'),status=ref('idle'),loadedActivities=ref<Activity[]>([]),errorMessage=ref('');async function load(){status.value='loading';try{loadedActivities.value=await fetchActivities(mode.value);status.value=loadedActivities.value.length?'success':'empty'}catch(error){status.value='error';errorMessage.value=error instanceof Error?error.message:'未知错误'}finally{loadedActivities.value=[]/* DAY15_INTENTIONAL_BUG */}}\n</script><template><select v-model="mode"><option>success</option><option>empty</option><option>error</option></select><button :disabled="status==='loading'" @click="load">加载</button><p>{{status}} {{errorMessage}}</p></template>\n`)
+  await put('campus-growth-hub/algorithms/day-15-review.ts', '// TODO：重做最薄弱题\n')
+}
+
+if (day === 16) {
+  await put('campus-growth-hub/notes/week-02-review.md', note(16))
+  await put('campus-growth-hub/notes/vue-data-flow.md', '# Vue 数据流\n\nHomeView state → props → ActivityCard → emit → HomeView update\n')
+  await put('campus-growth-hub/notes/async-state-flow.md', '# 异步五态\n\nidle → loading → success / empty / error → retry\n')
+  await put('campus-growth-hub/algorithms/day-16-review.ts', '// TODO：无 AI 重做本阶段最薄弱题。\n')
+}
+
+if (day === 17) {
+  await put('campus-growth-hub/algorithms/day-17-cycle-list.ts', '// TODO：环形链表\n')
 }
 
 if (day === 34) {

@@ -4,53 +4,54 @@ import { fileURLToPath } from 'node:url'
 
 import days01to14 from './specs/days-01-14.mjs'
 import revisedDays01to07 from './specs/days-01-07-revised.mjs'
+import reorderedDays10to17 from './specs/days-10-17-reordered.mjs'
 import days15to28 from './specs/days-15-28.mjs'
 import days29to40 from './specs/days-29-40.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const specs = { ...days01to14, ...revisedDays01to07, ...days15to28, ...days29to40 }
+const specs = { ...days01to14, ...revisedDays01to07, ...days15to28, ...days29to40, ...reorderedDays10to17 }
 
 const metaRows = `
-1~低压力基线、Git 与第一次排错~基础重建~诊断日
-2~HTML 与 CSS：完成响应式活动页~基础重建~正常日
-3~JavaScript 数据、对象与基础函数~基础重建~正常日
-4~数组方法、纯函数与组合筛选~基础重建~正常日
-5~DOM、事件与完整页面交互~基础重建~正常日
-6~第一周巩固：无 AI 重做与固定故障~基础重建~巩固日
-7~第一周轻量复盘与证据验收~基础重建~轻量日
-8~异步、Promise 与接口状态~JavaScript 与 Vue 入门~正常日
-9~事件循环、模块化与 DevTools~JavaScript 与 Vue 入门~正常日
-10~Vue 3 启动、模板与响应式状态~JavaScript 与 Vue 入门~正常日
-11~computed、watch 与表单状态~JavaScript 与 Vue 入门~正常日
-12~组件拆分、Props、Emits 与插槽~JavaScript 与 Vue 入门~正常日
-13~Vue 小应用独立整合~JavaScript 与 Vue 入门~巩固日
-14~第二周轻量复盘与无 AI 验收~JavaScript 与 Vue 入门~轻量日
-15~TypeScript 最小基础：类型服务业务~Vue 工程能力~正常日
-16~对象类型、接口、联合类型与收窄~Vue 工程能力~正常日
-17~Vue 中的 TypeScript：Props、Emits 与接口数据~Vue 工程能力~正常日
-18~Vue Router：先完成页面导航骨架~Vue 工程能力~正常日
-19~Pinia、会话状态与路由守卫~Vue 工程能力~正常日
-20~fetch、MSW 与请求错误整合~Vue 工程能力~巩固日
-21~第三周轻量复盘与工程验收~Vue 工程能力~轻量日
-22~现有原型审计与后续范围冻结~综合项目~正常日
-23~登录闭环、角色路由与权限边界~综合项目~正常日
-24~活动列表：查询、分页与完整页面状态~综合项目~正常日
-25~详情、收藏与报名表单~综合项目~正常日
-26~个人中心、状态派生与跨页一致性~综合项目~正常日
-27~第四周巩固：学生端无 AI 复现~综合项目~巩固日
-28~第四周轻量复盘与项目中期验收~综合项目~轻量日
-29~组织者活动管理与复杂表单~综合项目~正常日
-30~固定提取 usePagination~综合项目~正常日
-31~ECharts 数据看板与统计口径~综合项目~正常日
-32~路由懒加载、搜索防抖与键盘回归~综合项目~正常日
-33~Vitest：给关键逻辑建立安全网~综合项目~正常日
-34~Vercel 部署与生产故障演练~综合项目~巩固日
-35~第五周轻量复盘与项目终验~综合项目~轻量日
-36~HTTP、缓存、浏览器与安全边界~面试基础与终验~正常日
-37~JavaScript、Vue 与前端手写复现~面试基础与终验~正常日
-38~固定故障排查与项目表达~面试基础与终验~正常日
-39~固定题目的模拟技术面~面试基础与终验~正常日
-40~最终对照验收与下一阶段交接~面试基础与终验~终验日
+1~低压力基线、Git 与第一次排错~前端基础学习~诊断日
+2~HTML 与 CSS：完成响应式活动页~前端基础学习~正常日
+3~JavaScript 数据、对象与基础函数~前端基础学习~正常日
+4~数组方法、纯函数与组合筛选~前端基础学习~正常日
+5~DOM、事件与完整页面交互~前端基础学习~正常日
+6~第一周巩固：无 AI 重做与固定故障~前端基础学习~巩固日
+7~第一周轻量复盘与证据验收~前端基础学习~轻量日
+8~异步、Promise 与接口状态~前端基础学习~正常日
+9~事件循环、模块化与 DevTools~前端基础学习~正常日
+10~TypeScript 基础：类型、函数与 unknown~TypeScript 基础学习~正常日
+11~TypeScript 进阶基础：接口、联合类型与泛型~TypeScript 基础学习~正常日
+12~Vue 3 + TypeScript：启动、模板与响应式状态~Vue 3 基础学习~正常日
+13~computed、watch 与组合筛选~Vue 3 基础学习~正常日
+14~组件拆分、Props、Emits 与插槽~Vue 3 基础学习~正常日
+15~Vue 小应用、异步状态与独立整合~Vue 3 基础学习~巩固日
+16~Vue 基础轻量复盘与无 AI 验收~Vue 3 基础学习~轻量日
+17~在 Vue 中落地 TypeScript 数据与组件契约~Vue 3 基础学习~正常日
+18~Vue Router：先完成页面导航骨架~Vue 生态与工程化~正常日
+19~Pinia、会话状态与路由守卫~Vue 生态与工程化~正常日
+20~fetch、MSW 与请求错误整合~Vue 生态与工程化~巩固日
+21~第三周轻量复盘与工程验收~Vue 生态与工程化~轻量日
+22~现有原型审计与后续范围冻结~综合项目实战~正常日
+23~登录闭环、角色路由与权限边界~综合项目实战~正常日
+24~活动列表：查询、分页与完整页面状态~综合项目实战~正常日
+25~详情、收藏与报名表单~综合项目实战~正常日
+26~个人中心、状态派生与跨页一致性~综合项目实战~正常日
+27~第四周巩固：学生端无 AI 复现~综合项目实战~巩固日
+28~第四周轻量复盘与项目中期验收~综合项目实战~轻量日
+29~组织者活动管理与复杂表单~综合项目实战~正常日
+30~固定提取 usePagination~综合项目实战~正常日
+31~ECharts 数据看板与统计口径~综合项目实战~正常日
+32~路由懒加载、搜索防抖与键盘回归~综合项目实战~正常日
+33~Vitest：给关键逻辑建立安全网~综合项目实战~正常日
+34~Vercel 部署与生产故障演练~综合项目实战~巩固日
+35~第五周轻量复盘与项目终验~综合项目实战~轻量日
+36~HTTP、缓存、浏览器与安全边界~面试准备与最终验收~正常日
+37~JavaScript、Vue 与前端手写复现~面试准备与最终验收~正常日
+38~固定故障排查与项目表达~面试准备与最终验收~正常日
+39~固定题目的模拟技术面~面试准备与最终验收~正常日
+40~最终对照验收与下一阶段交接~面试准备与最终验收~终验日
 `.trim().split('\n').map((line) => {
   const [day, title, phase, type] = line.split('~')
   return { day: Number(day), title, phase, type }
@@ -76,7 +77,7 @@ function renderCodeList(items) {
 }
 
 function displayDir(day, dir) {
-  if (day <= 10) return '../frontend-40-day-learning-lab'
+  if (day <= 11) return '../frontend-40-day-learning-lab'
   return '../frontend-40-day-learning-lab/campus-growth-hub'
 }
 
@@ -85,7 +86,7 @@ function displayFile(day, value) {
   if (/^(https?:\/\/|\/)/.test(path)) return path
   const explicitlyWorkspaceRelative = path.startsWith('learning-lab/')
   const clean = explicitlyWorkspaceRelative ? path.slice('learning-lab/'.length) : path
-  if (day < 10 || explicitlyWorkspaceRelative || clean.startsWith('campus-growth-hub/')) return clean
+  if (day < 12 || explicitlyWorkspaceRelative || clean.startsWith('campus-growth-hub/')) return clean
   return `campus-growth-hub/${clean}`
 }
 
@@ -262,22 +263,23 @@ const preparation = `# 前期准备
 
 这部分只在开始第 1 天之前完成一次，不计入 40 天学习时间。完成后，后续每天直接打开当天页面，从“第 1 步：运行当天命令”开始。
 
-## 1. 认识三个固定位置
+## 1. 认识四个固定位置
 
 整个计划只涉及下面三个位置：
 
 | 名称 | 实际位置 | 用途 |
 | --- | --- | --- |
 | 计划站点根目录 | \`frontend-40-day-plan-site\` | 查看计划、运行每日准备命令 |
-| 学习工作区 | \`frontend-40-day-learning-lab\` | 保存第 1～9 天练习、学习记录和 Git 历史 |
-| Vue 正式项目 | \`frontend-40-day-learning-lab/campus-growth-hub\` | 第 10～40 天持续维护的唯一项目和 npm 依赖 |
+| 学习工作区 | \`frontend-40-day-learning-lab\` | 承载全部学习成果和 Git 历史；第 1～9 天代码直接放在这里 |
+| TypeScript 基础练习 | \`frontend-40-day-learning-lab/typescript-foundations\` | 第 10～11 天独立学习 TypeScript，不启动 Vue |
+| Vue 正式项目 | \`frontend-40-day-learning-lab/campus-growth-hub\` | 第 12～40 天持续维护的唯一 Vue 3 + TypeScript 项目 |
 
 学习工作区和计划站点是**同级文件夹**。\`frontend-40-day-learning-lab\` 不需要手动创建，第 1 天的准备命令会自动创建它。
 
-这样安排是因为 Vue 正式项目需要执行 \`npm install\`。把它放进计划站点内部，Node.js 可能向上查找到计划站点的依赖，也容易把两份 Git 记录和命令位置混在一起。
+这样安排是因为 TypeScript 练习和 Vue 正式项目都需要执行 \`npm install\`。它们各自拥有 package.json，不能在学习工作区根目录混装依赖，更不能放进计划站点内部。
 
 ::: warning 只保留一份工作区
-不要在桌面、下载目录或其他位置再创建 \`frontend-40-day-learning-lab\` 或 \`campus-growth-hub\`。否则后面很容易修改错项目。
+不要在桌面、下载目录或其他位置再创建 \`frontend-40-day-learning-lab\`、\`typescript-foundations\` 或 \`campus-growth-hub\`。否则后面很容易修改错项目。
 :::
 
 ## 2. 在正确位置打开终端
@@ -343,9 +345,10 @@ pnpm learner:prepare 01
 | --- | --- |
 | \`day-01/html/index.html\` | \`frontend-40-day-learning-lab/day-01/html/index.html\` |
 | \`notes/day-05.md\` | \`frontend-40-day-learning-lab/notes/day-05.md\` |
+| \`typescript-foundations/src/01-values.ts\` | \`frontend-40-day-learning-lab/typescript-foundations/src/01-values.ts\` |
 | \`campus-growth-hub/src/App.vue\` | \`frontend-40-day-learning-lab/campus-growth-hub/src/App.vue\` |
 
-从第 10 天开始，绝大多数代码都位于 \`campus-growth-hub\`，但每日准备命令仍然从计划站点根目录运行。
+第 10～11 天代码位于 \`typescript-foundations\`，从第 12 天开始绝大多数代码位于 \`campus-growth-hub\`；每日准备命令始终从计划站点根目录运行。
 
 ## 7. 理解“终端 A”和“终端 B”
 
@@ -414,16 +417,17 @@ const overview = `# 40 天总览
 
 | 阶段 | 天数 | 核心结果 |
 | --- | --- | --- |
-| 基础重建 | 1～7 | 固定 starter、HTML/CSS、数据函数、DOM、排错与第一周复现 |
-| JavaScript 与 Vue 入门 | 8～14 | Promise 四态、DevTools、Vue 响应式、组件契约与无 AI 迁移 |
-| Vue 工程能力 | 15～21 | JS→TS、Router、Pinia、fetch+MSW 与工程验收 |
-| 综合项目 | 22～35 | 冻结范围后完成学生端、组织者端、测试、性能和部署 |
-| 面试基础与终验 | 36～40 | HTTP/安全、固定手写、故障排查、固定模拟面试和对照终验 |
+| 前端基础学习 | 1～9 | HTML/CSS、JavaScript 数据处理、DOM、异步、模块化与排错 |
+| TypeScript 基础学习 | 10～11 | 基础类型、函数、unknown、接口、判别联合与项目需要的泛型 |
+| Vue 3 基础学习 | 12～17 | 从第一天使用 TypeScript，完成响应式、组件通信、异步状态和类型化数据流 |
+| Vue 生态与工程化 | 18～21 | Router、Pinia、fetch+MSW 与工程验收 |
+| 综合项目实战 | 22～35 | 冻结范围后完成学生端、组织者端、测试、性能和部署 |
+| 面试准备与最终验收 | 36～40 | HTTP/安全、固定手写、故障排查、固定模拟面试和对照终验 |
 
 ## 接下来从哪里进入
 
 - 第一次使用：先打开[前期准备](/preparation)。
-- 查看每天安排：在左侧展开“40 天学习计划”。
+- 查看每天安排：直接在左侧选择对应的学习阶段，再打开当天页面。
 - 已经开始执行：直接回到对应的每日页面。
 
 ## 第 40 天后
@@ -463,7 +467,22 @@ features:
 
 await writeFile(resolve(root, 'docs/index.md'), home)
 
-const sidebar = metaRows.map((meta) => `          { text: ${JSON.stringify(`第 ${meta.day} 天：${meta.title}`)}, link: "/days/day-${String(meta.day).padStart(2, '0')}/" },`).join('\n')
+const sidebarGroups = [
+  { text: '前端基础学习', from: 1, to: 9 },
+  { text: 'TypeScript 基础学习', from: 10, to: 11 },
+  { text: 'Vue 3 基础学习', from: 12, to: 17 },
+  { text: 'Vue 生态与工程化', from: 18, to: 21 },
+  { text: '综合项目实战', from: 22, to: 35 },
+  { text: '面试准备与最终验收', from: 36, to: 40 },
+]
+
+const sidebar = sidebarGroups.map((group) => {
+  const items = metaRows
+    .filter((meta) => meta.day >= group.from && meta.day <= group.to)
+    .map((meta) => `          { text: ${JSON.stringify(`第 ${meta.day} 天：${meta.title}`)}, link: "/days/day-${String(meta.day).padStart(2, '0')}/" },`)
+    .join('\n')
+  return `      { text: ${JSON.stringify(group.text)}, collapsed: false, items: [\n${items}\n      ]},`
+}).join('\n')
 const config = `import { defineConfig } from 'vitepress'
 
 export default defineConfig({
@@ -479,9 +498,7 @@ export default defineConfig({
     sidebar: [
       { text: '总览', link: '/overview' },
       { text: '前期准备', link: '/preparation' },
-      { text: '40 天学习计划', collapsed: false, items: [
 ${sidebar}
-      ]},
     ],
     outline: { level: [2, 3], label: '本页目录' },
     search: { provider: 'local' },

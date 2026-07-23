@@ -1,13 +1,13 @@
 ---
-title: 第 12 天：组件拆分、Props、Emits 与插槽
+title: 第 12 天：Vue 3 + TypeScript：启动、模板与响应式状态
 ---
 
-# 第 12 天：组件拆分、Props、Emits 与插槽
+# 第 12 天：Vue 3 + TypeScript：启动、模板与响应式状态
 
 ::: tip 今天只认这个结果
-**阶段：** JavaScript 与 Vue 入门<br>
+**阶段：** Vue 3 基础学习<br>
 **时间：** 正常学习日（6 小时净学习 + 30 分钟验收）<br>
-**第一项成果：** 子组件显示父组件消息
+**第一项成果：** 页面显示计数器，点击三次为 3。
 :::
 
 > 正常日的 6 小时是净学习时间，最后统一审查的 30 分钟另计。当天的学习任务和自测全部由学习者独立完成，过程中不接受提示、故障注入或逐项检查。每学习 45～60 分钟离开屏幕休息 10～15 分钟；未完成内容不靠熬夜补。
@@ -19,6 +19,7 @@ title: 第 12 天：组件拆分、Props、Emits 与插槽
 ```bash
 pnpm learner:prepare 12
 cd ../frontend-40-day-learning-lab/campus-growth-hub
+npm install
 git status
 ```
 
@@ -28,124 +29,141 @@ git status
 
 ### 2. 打开这些文件或页面
 
+- `campus-growth-hub/package.json`
+- `campus-growth-hub/src/main.ts`
+- `campus-growth-hub/src/App.vue`
+- `campus-growth-hub/src/components/CounterPractice.vue`
 - `campus-growth-hub/src/views/HomeView.vue`
-- `campus-growth-hub/src/components/MessageParent.vue`
-- `campus-growth-hub/src/components/MessageChild.vue`
-- `campus-growth-hub/src/components/BasePanel.vue`
-- `campus-growth-hub/src/components/SearchBar.vue`
-- `campus-growth-hub/src/components/ActivityCard.vue`
-- `campus-growth-hub/src/components/EmptyState.vue`
 - `campus-growth-hub/notes/day-12.md`
 
 ### 3. 开始前必须确认
 
-- [ ] 每日准备命令已检查 Day 11 首页并生成所有六个组件 starter、notes/day-12.md 和算法空白文件；不会覆盖 HomeView。
-- [ ] 终端当前位于 campus-growth-hub；在终端 A 运行 npm run dev 并保持运行，终端 B 留在项目根目录执行 git 与 build。
-- [ ] 状态继续由 HomeView 持有，子组件只收 props、发 emits；BasePanel 只演示默认插槽。
+- [ ] 每日准备命令已生成 Vue 3 + TypeScript 的 campus-growth-hub；这是 Day 12～40 唯一正式项目。
+- [ ] 项目入口从第一天就是 src/main.ts，不创建 main.js，也不经历 JS 项目再迁移。
+- [ ] 终端 A 运行 npm run dev 并保持；终端 B 在同一项目根目录运行 type-check、build 和 Git。
 
 ### 4. 第一件具体工作
 
-打开 `campus-growth-hub/src/components/MessageChild.vue`，开始执行“props、emit 与单向数据流最小例”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
+打开 `campus-growth-hub/src/main.ts`，开始执行“认识 Vue 项目入口、单文件组件和模板”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
 
 ## 今日时间表
 
 | 顺序 | 必做任务 | 净学习时间 |
 | --- | --- | ---: |
-| 1 | props、emit 与单向数据流最小例 | 85 分钟 |
-| 2 | 按固定契约拆首页 | 170 分钟 |
-| 3 | 有效括号、复现与构建 | 105 分钟 |
+| 1 | 认识 Vue 项目入口、单文件组件和模板 | 95 分钟 |
+| 2 | 完成固定活动首页和响应式列表 | 160 分钟 |
+| 3 | 用 DevTools 看一次 Vue 状态更新 | 75 分钟 |
+| 4 | 30 分钟算法：移动零 | 30 分钟 |
 | 统一审查 | 全部学习任务和自测结束后，执行页面底部答案卡 | 另计 30 分钟 |
 
 学习任务合计：**360 分钟**。只在全部必做通过后考虑选做。
 
 ## 今日必做
 
-### 必做 1：props、emit 与单向数据流最小例（85 分钟）
+### 必做 1：认识 Vue 项目入口、单文件组件和模板（95 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/components/MessageChild.vue`
-- `campus-growth-hub/src/components/MessageParent.vue`
+- `campus-growth-hub/src/main.ts`
+- `campus-growth-hub/src/App.vue`
+- `campus-growth-hub/src/components/CounterPractice.vue`
 - `campus-growth-hub/notes/day-12.md`
 
 **按顺序执行**
 
-1. 直接阅读 Vue 指南“Props”“组件事件”“插槽”基础小节。
-2. Parent 持有 message 与 count；Child defineProps({message:String,count:Number})，defineEmits([increment])；按钮只 emit increment，不写 props.count++。
-3. 父组件监听 @increment 修改 count；画 Parent state ↓ props / ↑ emit。
-4. BasePanel.vue 只写 title prop 与默认 slot，不学习作用域插槽。
+1. 运行 npm run dev，记录地址；确认 main.ts 创建应用、App.vue 是根组件、#app 是挂载点。
+2. CounterPractice 使用 &lt;script setup lang="ts"&gt;、ref(0) 和按钮点击；点击三次显示 3。
+3. 用箭头写 ref 定义→模板读取→事件修改→视图更新；临时把 count 赋成字符串观察类型错误后恢复。
+4. 关闭资料，从空白重写一次计数器，只保留一个 ref 和一个按钮。
 
 **完成后应该看到**
 
-- 子组件显示父组件消息
-- 点击后由父组件把 count 加 1
-- 无“Attempting to mutate prop”警告
+- 页面显示计数器，点击三次为 3。
+- 能指出 main.ts、App.vue 和组件的职责。
 
 **立即测试，不要留到晚上**
 
-- [ ] 临时在子组件改 prop 观察警告后恢复
-- [ ] 替换 slot 内容能正常显示
+- [ ] npm run type-check
+- [ ] 刷新后计数归 0
+- [ ] count.value='1' 必须报错
 
-### 必做 2：按固定契约拆首页（170 分钟）
+### 必做 2：完成固定活动首页和响应式列表（160 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/components/SearchBar.vue`
-- `campus-growth-hub/src/components/ActivityCard.vue`
-- `campus-growth-hub/src/components/EmptyState.vue`
+- `campus-growth-hub/src/types/activity.ts`
+- `campus-growth-hub/src/data/activities.ts`
 - `campus-growth-hub/src/views/HomeView.vue`
+- `campus-growth-hub/src/App.vue`
+- `campus-growth-hub/src/style.css`
 
 **按顺序执行**
 
-1. SearchBar props：searchText、selectedType、types；emits：update:searchText、update:selectedType、reset；内部只读取控件并 emit。
-2. ActivityCard props：activity、bookmarked；emit toggle-bookmark，payload 只传 activity.id；按钮显示收藏/已收藏。
-3. EmptyState 无状态，只显示“暂无符合条件的活动”。
-4. HomeView 保留 activities、searchText、selectedType、filteredActivities、bookmarkedIds、toggleBookmark；通过 props 下发，通过事件更新。
-5. 拆分前先跑一遍 6→技术2→javascript1→收藏→重置；拆分后重复完全相同路径。
+1. 阅读准备好的 Activity 类型和 6 条活动数据，先口述每个字段。
+2. HomeView 定义 keyword=ref('')，用一个普通函数返回标题匹配结果；Day 13 再改 computed。
+3. 模板包含标题、搜索框、结果数量和活动列表；卡片显示标题、类型、地点和剩余名额。
+4. App.vue 只渲染 HomeView；CSS 做桌面三列、375px 单列，不做主题系统。
+5. 搜索 JavaScript 得 1 条，清空恢复 6 条；临时读取 activity.foo，确认类型提示后删除。
 
 **完成后应该看到**
 
-- 拆分前后功能一致
-- 子组件不直接修改 props
-- 收藏事件 payload 是 id
-- 空状态由 filteredActivities.length===0 控制
+- 初始 6 张卡，搜索 JavaScript 后 1 张。
+- 375px 单列且无横向滚动。
 
 **立即测试，不要留到晚上**
 
-- [ ] Vue Console 无 prop mutation warning
-- [ ] 点击 id=5 收藏只改变对应卡
-- [ ] 重置后收藏状态保留但筛选恢复
+- [ ] npm run type-check
+- [ ] npm run build
+- [ ] Console 无 Vue warning
 
-### 必做 3：有效括号、复现与构建（105 分钟）
+### 必做 3：用 DevTools 看一次 Vue 状态更新（75 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/algorithms/day-12-valid-parentheses.js`
+- `campus-growth-hub/src/views/HomeView.vue`
 - `campus-growth-hub/notes/day-12.md`
 
 **按顺序执行**
 
-1. 打开 https://leetcode.cn/problems/valid-parentheses/；使用数组模拟栈与 close→open 映射。
-2. 样例 ()[]{} 为 true，(] 为 false；遇到右括号时栈空立即 false。
-3. 在 algorithms/ 对应文件中保留：题意、两个样例、自己的第一版、最终代码、复杂度、AI 辅助等级；不要只保存 LeetCode 通过截图。
-4. 关闭资料重写 ActivityCard 的 props 与 emit；在终端 B 运行 npm run build；提交 refactor: split activity components。
+1. 在搜索函数第一行设断点，输入 JavaScript，观察 keyword.value 和活动数组长度。
+2. Step over 到返回语句，记录过滤前后长度；移除断点后确认页面正常。
+3. 记录一次错误或警告：现象、证据、原因、修复；没有错误就临时把导入路径改错并立即恢复。
 
 **完成后应该看到**
 
-- 两个样例正确
-- 无 AI ActivityCard 可收藏
-- 构建通过
+- 笔记记录 6→1 的变量变化。
+- 恢复后 Console 无未解释错误。
 
 **立即测试，不要留到晚上**
 
-- [ ] 空字符串为 true
-- [ ] ([)] 为 false
-- [ ] 输入 {[]} 为 true
+- [ ] 刷新后断点仍能重新命中
+- [ ] git diff 中没有遗留的错误路径
+
+### 必做 4：30 分钟算法：移动零（30 分钟）
+
+**修改或创建这些文件**
+
+- `campus-growth-hub/algorithms/day-12-move-zeroes.ts`
+- `campus-growth-hub/notes/day-12.md`
+
+**按顺序执行**
+
+1. 算法严格计时 30 分钟：先写样例与思路，20 分钟仍无进展只看一个提示；结束时保存代码、边界、复杂度和 AI 辅助等级。
+2. 使用快慢指针原地处理 [0,1,0,3,12]，得到 [1,3,12,0,0]。
+
+**完成后应该看到**
+
+- 写出 O(n) 时间、O(1) 额外空间。
+
+**立即测试，不要留到晚上**
+
+- [ ] [0] 保持 [0]
+- [ ] [1,2] 保持 [1,2]
 
 
 ## 有余力再做
 
-- BasePanel 增加名为 actions 的具名插槽；不把它强行应用到全部卡片。
+- 给搜索框增加 label；不安装 Router 或 Pinia。
 
 选做没有完成不进入欠账清单，也不影响当天通过。
 
@@ -170,19 +188,18 @@ git status
 检查者从这里才介入。学习过程中不提示、不提问、不注入故障，也不逐项验收。
 :::
 
-首页筛选→收藏→空状态；随后打开 HomeView、SearchBar、ActivityCard。
+首页 → main.ts → CounterPractice → HomeView。
 
 **检查操作**
 
-1. 沿 props/emit 画数据流
-2. 现场让 ActivityCard 发 toggle-bookmark
-3. 指出为什么不能直接修改 props
+1. 演示搜索和响应式布局。
+2. 解释 ref 更新流程。
+3. 运行 type-check 和 build。
 
 **正确结果与判断依据**
 
-- 父组件更新 bookmarkedIds
-- 子组件职责可一句话说明
-- 拆分后功能无回归
+- 6→1→6 路径正确。
+- 项目从创建起使用 TypeScript。
 
 ### 结果记录
 

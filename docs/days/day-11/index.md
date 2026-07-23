@@ -1,13 +1,13 @@
 ---
-title: 第 11 天：computed、watch 与表单状态
+title: 第 11 天：TypeScript 进阶基础：接口、联合类型与泛型
 ---
 
-# 第 11 天：computed、watch 与表单状态
+# 第 11 天：TypeScript 进阶基础：接口、联合类型与泛型
 
 ::: tip 今天只认这个结果
-**阶段：** JavaScript 与 Vue 入门<br>
+**阶段：** TypeScript 基础学习<br>
 **时间：** 正常学习日（6 小时净学习 + 30 分钟验收）<br>
-**第一项成果：** 输入 bo 只显示 Bob
+**第一项成果：** role=admin 会报错。
 :::
 
 > 正常日的 6 小时是净学习时间，最后统一审查的 30 分钟另计。当天的学习任务和自测全部由学习者独立完成，过程中不接受提示、故障注入或逐项检查。每学习 45～60 分钟离开屏幕休息 10～15 分钟；未完成内容不靠熬夜补。
@@ -18,7 +18,8 @@ title: 第 11 天：computed、watch 与表单状态
 
 ```bash
 pnpm learner:prepare 11
-cd ../frontend-40-day-learning-lab/campus-growth-hub
+cd ../frontend-40-day-learning-lab
+npm --prefix typescript-foundations run type-check
 git status
 ```
 
@@ -28,117 +29,133 @@ git status
 
 ### 2. 打开这些文件或页面
 
-- `campus-growth-hub/src/views/HomeView.vue`
-- `campus-growth-hub/src/data/activities.js`
-- `campus-growth-hub/src/components/ComputedWatchLab.vue`
-- `campus-growth-hub/notes/day-11.md`
+- `typescript-foundations/src/04-models.ts`
+- `typescript-foundations/src/05-request-state.ts`
+- `typescript-foundations/src/06-generics.ts`
+- `typescript-foundations/notes/day-11.md`
 
 ### 3. 开始前必须确认
 
-- [ ] 每日准备命令已检查 Day 10 的 HomeView 与活动数据，并只补齐 ComputedWatchLab.vue、notes/day-11.md 和算法空白文件；缺少 Day 10 产物时必须报错，不静默重建。
-- [ ] 终端当前位于 campus-growth-hub；在终端 A 运行 npm run dev 并保持运行，终端 B 留在项目根目录执行 git 与 build。
-- [ ] 今天所有筛选逻辑先留在 HomeView.vue；watch 只做 localStorage 副作用。
+- [ ] Day 10 的 type-check 和固定测试已经通过。
+- [ ] 今天仍只使用 typescript-foundations，不创建 Vue 项目。
+- [ ] 先自己写类型和分支，再使用编辑器错误信息修正；不复制完整答案。
 
 ### 4. 第一件具体工作
 
-打开 `campus-growth-hub/src/components/ComputedWatchLab.vue`，开始执行“computed 与 watch 对照实验”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
+打开 `typescript-foundations/src/04-models.ts`，开始执行“对象类型、interface 与可选字段”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
 
 ## 今日时间表
 
 | 顺序 | 必做任务 | 净学习时间 |
 | --- | --- | ---: |
-| 1 | computed 与 watch 对照实验 | 85 分钟 |
-| 2 | 首页搜索、类型、结果数与重置 | 165 分钟 |
-| 3 | 合并有序数组、复现与构建 | 110 分钟 |
+| 1 | 对象类型、interface 与可选字段 | 100 分钟 |
+| 2 | 联合类型、判别字段与穷尽检查 | 120 分钟 |
+| 3 | 只学习项目会用到的泛型 | 110 分钟 |
+| 4 | 30 分钟算法：有效括号 TypeScript 版 | 30 分钟 |
 | 统一审查 | 全部学习任务和自测结束后，执行页面底部答案卡 | 另计 30 分钟 |
 
 学习任务合计：**360 分钟**。只在全部必做通过后考虑选做。
 
 ## 今日必做
 
-### 必做 1：computed 与 watch 对照实验（85 分钟）
+### 必做 1：对象类型、interface 与可选字段（100 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/components/ComputedWatchLab.vue`
-- `campus-growth-hub/notes/day-11.md`
+- `typescript-foundations/src/04-models.ts`
+- `typescript-foundations/src/04-models.test.ts`
 
 **按顺序执行**
 
-1. 直接阅读 Vue 指南“计算属性”“侦听器”两节的基础用法。
-2. 固定 names=[Alice,Bob,Carol] 和 keyword；computed filteredNames 负责过滤；watch(keyword) 把值写入 localStorage 的 demo-key。
-3. 故意用普通变量保存过滤结果，观察 keyword 改变后不更新；再恢复 computed。
-4. 写一句判断规则：从现有状态算出的值用 computed；需要写存储/发请求等外部动作才考虑 watch。
+1. 定义 User、ActivityBase；User.role 只允许 student 或 organizer。
+2. 把活动建模为 online/offline 两种：online 必须有 meetingUrl，offline 必须有 location。
+3. 分别创建一条线上和线下活动；再故意漏掉各自必填字段，保存错误后修复。
+4. 实现 getActivityPlace：线上返回“线上”，线下返回 location；不得同时用可选 location 和 meetingUrl 糊成一个对象。
 
 **完成后应该看到**
 
-- 输入 bo 只显示 Bob
-- localStorage demo-key 为 bo
-- 不需要手动调用 computed
+- role=admin 会报错。
+- 线上和线下活动不能缺少各自字段。
 
 **立即测试，不要留到晚上**
 
-- [ ] 清空输入恢复三人
-- [ ] 删除 watch 后筛选仍工作但 localStorage 不更新
+- [ ] npm --prefix typescript-foundations run test:models
+- [ ] 临时删除 meetingUrl 时 type-check 失败
 
-### 必做 2：首页搜索、类型、结果数与重置（165 分钟）
+### 必做 2：联合类型、判别字段与穷尽检查（120 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/views/HomeView.vue`
-- `campus-growth-hub/src/data/activities.js`
+- `typescript-foundations/src/05-request-state.ts`
+- `typescript-foundations/src/05-request-state.test.ts`
 
 **按顺序执行**
 
-1. 把 Day 10 的 filteredActivities 函数改为 computed。
-2. 新增 selectedType=ref('all')；类型选项固定 all/技术/文艺/体育/就业/公益。
-3. computed 规则：关键词 trim+lowercase，同时匹配 title；再匹配 selectedType；resultCount=computed(()=&gt;filteredActivities.value.length)。
-4. watch(searchText, value =&gt; localStorage.setItem('activity-search', value))；这只是副作用，不参与过滤。
-5. 新增重置按钮，把 searchText 设空、selectedType 设 all；无结果时显示“暂无符合条件的活动”。
+1. 定义 RequestState&lt;T&gt;：idle、loading、success、empty、error 五个分支，每个分支只保留自己需要的字段。
+2. 实现 describeState(state)：使用 switch(state.status) 返回固定文案。
+3. 在 error 分支故意读取 data，确认类型错误；在 success 分支读取 message，同样保存后修复。
+4. 增加 assertNever；临时新增 cancelled 分支但不处理，确认穷尽检查失败，再补分支或撤回。
 
 **完成后应该看到**
 
-- 初始显示找到 6 个活动
-- 技术显示 2
-- 技术+javascript 显示 1
-- 文艺+javascript 显示 0 与空状态
-- 重置恢复 6
+- 五态互斥，不存在既 success 又 error 的对象。
+- 新增状态时遗漏分支会被发现。
 
 **立即测试，不要留到晚上**
 
-- [ ] 关键词带首尾空格仍匹配
-- [ ] 重置后 localStorage 最终为空字符串
-- [ ] computed 中没有写 localStorage
+- [ ] npm --prefix typescript-foundations run test:state
+- [ ] success 返回活动数量，error 返回错误文案
 
-### 必做 3：合并有序数组、复现与构建（110 分钟）
+### 必做 3：只学习项目会用到的泛型（110 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/algorithms/day-11-merge-sorted-array.js`
-- `campus-growth-hub/notes/day-11.md`
+- `typescript-foundations/src/06-generics.ts`
+- `typescript-foundations/src/06-generics.test.ts`
+- `typescript-foundations/notes/day-11.md`
 
 **按顺序执行**
 
-1. 打开 https://leetcode.cn/problems/merge-sorted-array/；从 nums1 尾部使用三个指针，避免覆盖尚未读取元素。
-2. 固定 nums1=[1,2,3,0,0,0],m=3,nums2=[2,5,6],n=3，结果 [1,2,2,3,5,6]。
-3. 在 algorithms/ 对应文件中保留：题意、两个样例、自己的第一版、最终代码、复杂度、AI 辅助等级；不要只保存 LeetCode 通过截图。
-4. 关闭资料重写 filteredActivities computed；在终端 B 运行 npm run build；提交 feat: add reactive activity filters。
+1. 定义 ApiResult&lt;T&gt; 与 PaginatedResult&lt;T&gt;，用 Activity[] 和 User 分别替换 T，观察结果类型。
+2. 实现 unwrap&lt;T&gt;(result: ApiResult&lt;T&gt;): T 和 firstOrUndefined&lt;T&gt;(list:T[]):T|undefined。
+3. 故意把 items 拼成 item、把 total 写成字符串，确认结构错误能被发现。
+4. 在笔记写清 T 代表“由调用处决定的占位类型”；今天不学习条件类型、映射类型和类型体操。
 
 **完成后应该看到**
 
-- 算法样例正确
-- 筛选 computed 可解释
-- 构建通过
+- 能解释同一个 ApiResult 为什么可装不同 data。
+- 分页字段拼错会被捕获。
 
 **立即测试，不要留到晚上**
 
-- [ ] nums2=[] 时 nums1 不变
-- [ ] nums1=[0],m=0,nums2=[1],n=1 得 [1]
+- [ ] npm --prefix typescript-foundations run test:generics
+- [ ] 空数组 firstOrUndefined 返回 undefined
+
+### 必做 4：30 分钟算法：有效括号 TypeScript 版（30 分钟）
+
+**修改或创建这些文件**
+
+- `typescript-foundations/algorithms/day-11-valid-parentheses.ts`
+- `typescript-foundations/notes/day-11.md`
+
+**按顺序执行**
+
+1. 算法严格计时 30 分钟：先写样例与思路，20 分钟仍无进展只看一个提示；结束时保存代码、边界、复杂度和 AI 辅助等级。
+2. 函数签名固定为 isValid(input:string):boolean；使用 string[] 模拟栈。
+3. 验证 ()[]{} 为 true、([)] 为 false、空字符串为 true。
+
+**完成后应该看到**
+
+- 栈和映射都有明确类型。
+
+**立即测试，不要留到晚上**
+
+- [ ] npm --prefix typescript-foundations run type-check
 
 
 ## 有余力再做
 
-- 从 localStorage 恢复初始搜索词；今天不做复杂表单校验。
+- 只复写最薄弱的一段，不提前学习 Vue 类型写法。
 
 选做没有完成不进入欠账清单，也不影响当天通过。
 
@@ -163,19 +180,18 @@ git status
 检查者从这里才介入。学习过程中不提示、不提问、不注入故障，也不逐项验收。
 :::
 
-首页初始→类型技术→关键词 javascript→重置；打开 HomeView.vue。
+models → request-state → generics → notes。
 
 **检查操作**
 
-1. 解释 computed 与 watch 的各自职责
-2. 查看 localStorage activity-search
-3. 现场新增“公益”筛选路径并重置
+1. 运行全部 TypeScript 测试。
+2. 用线上/线下活动解释判别联合。
+3. 现场新增一种状态并观察穷尽检查。
 
 **正确结果与判断依据**
 
-- 结果数依次 6、2、1、6
-- watch 内没有计算筛选数组
-- 重置恢复默认
+- 所有测试通过。
+- 能说明 interface、联合类型和泛型各自解决什么问题。
 
 ### 结果记录
 

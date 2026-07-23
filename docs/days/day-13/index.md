@@ -1,13 +1,13 @@
 ---
-title: 第 13 天：Vue 小应用独立整合
+title: 第 13 天：computed、watch 与组合筛选
 ---
 
-# 第 13 天：Vue 小应用独立整合
+# 第 13 天：computed、watch 与组合筛选
 
 ::: tip 今天只认这个结果
-**阶段：** JavaScript 与 Vue 入门<br>
-**时间：** 巩固实践日（6 小时净学习 + 30 分钟验收）<br>
-**第一项成果：** 点击课程收藏后初始 4 门
+**阶段：** Vue 3 基础学习<br>
+**时间：** 正常学习日（6 小时净学习 + 30 分钟验收）<br>
+**第一项成果：** 输入 bo 只显示 Bob。
 :::
 
 > 正常日的 6 小时是净学习时间，最后统一审查的 30 分钟另计。当天的学习任务和自测全部由学习者独立完成，过程中不接受提示、故障注入或逐项检查。每学习 45～60 分钟离开屏幕休息 10～15 分钟；未完成内容不靠熬夜补。
@@ -20,6 +20,7 @@ title: 第 13 天：Vue 小应用独立整合
 pnpm learner:prepare 13
 cd ../frontend-40-day-learning-lab/campus-growth-hub
 git status
+npm run type-check
 ```
 
 命令报错时先停在当前步骤，不要继续执行后面的任务。
@@ -28,128 +29,129 @@ git status
 
 ### 2. 打开这些文件或页面
 
-- `campus-growth-hub/src/App.vue`
-- `campus-growth-hub/src/practice/course-favorites/CourseFavorites.vue`
-- `campus-growth-hub/src/practice/course-favorites/courses.js`
-- `campus-growth-hub/src/practice/async-state/AsyncActivityLab.vue`
-- `campus-growth-hub/src/services/activityApi.js`
 - `campus-growth-hub/src/views/HomeView.vue`
+- `campus-growth-hub/src/components/ComputedWatchLab.vue`
 - `campus-growth-hub/notes/day-13.md`
 
 ### 3. 开始前必须确认
 
-- [ ] 每日准备命令已检查 Day 12 组件链，生成课程收藏 starter、可运行的 AsyncActivityLab 预设故障、activityApi、notes/day-13.md 和算法空白文件；不会覆盖 HomeView。
-- [ ] 终端当前位于 campus-growth-hub；在终端 A 运行 npm run dev 并保持运行，终端 B 留在项目根目录执行 git 与 build。
-- [ ] 课程收藏与异步故障都必须通过 App.vue 的练习切换按钮真正挂载显示；完成调试后再把正确四态迁移到 HomeView。
+- [ ] Day 12 项目可以运行并显示 6 条活动。
+- [ ] 今天 computed 负责派生值，watch 只处理存储等副作用。
 
 ### 4. 第一件具体工作
 
-打开 `campus-growth-hub/src/App.vue`，开始执行“无 AI 课程收藏夹”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
+打开 `campus-growth-hub/src/components/ComputedWatchLab.vue`，开始执行“用最小实验区分 computed 与 watch”的第 1 步。不要先浏览后面所有任务，也不要先让 AI 生成完整代码。
 
 ## 今日时间表
 
 | 顺序 | 必做任务 | 净学习时间 |
 | --- | --- | ---: |
-| 1 | 无 AI 课程收藏夹 | 105 分钟 |
-| 2 | 主项目异步四态与预设故障 | 160 分钟 |
-| 3 | 旧算法复现、回归与提交 | 95 分钟 |
+| 1 | 用最小实验区分 computed 与 watch | 90 分钟 |
+| 2 | 首页完成关键词、类型、结果数和重置 | 170 分钟 |
+| 3 | 无 AI 重写唯一过滤 computed | 70 分钟 |
+| 4 | 30 分钟算法：合并有序数组 | 30 分钟 |
 | 统一审查 | 全部学习任务和自测结束后，执行页面底部答案卡 | 另计 30 分钟 |
 
 学习任务合计：**360 分钟**。只在全部必做通过后考虑选做。
 
 ## 今日必做
 
-### 必做 1：无 AI 课程收藏夹（105 分钟）
+### 必做 1：用最小实验区分 computed 与 watch（90 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/App.vue`
-- `campus-growth-hub/src/practice/course-favorites/CourseFavorites.vue`
-- `campus-growth-hub/src/practice/course-favorites/courses.js`
+- `campus-growth-hub/src/components/ComputedWatchLab.vue`
+- `campus-growth-hub/notes/day-13.md`
 
 **按顺序执行**
 
-1. courses.js 固定数据：[{id:1,title:'JavaScript 基础'},{id:2,title:'Vue 3 入门'},{id:3,title:'计算机网络'},{id:4,title:'数据结构'}]。
-2. CourseFavorites.vue 精确 TODO：ref searchText、ref favoriteIds、computed filteredCourses；输入按 title 过滤；每行按钮切换收藏；复选框只看已收藏。
-3. App.vue 保留 HomeView，并新增 currentDemo=ref('home')；提供“主项目 / 课程收藏 / 异步故障”三个按钮，分别渲染 HomeView、CourseFavorites、AsyncActivityLab。
-4. 先点击“课程收藏”确认组件已挂载，再测试搜索、收藏和只看收藏；空结果固定显示“没有匹配课程”。
-5. 前 40 分钟无 AI；到点只看 Day 11/12 自己的思路笔记 10 分钟，再关闭并完成。
+1. 用 names=[Alice,Bob,Carol]、keyword 和 computed filteredNames 完成过滤。
+2. watch(keyword) 只写 localStorage 的 demo-key；删除 watch 后过滤仍应工作。
+3. 故意用普通常量保存过滤结果，观察输入后不更新，再恢复 computed。
+4. 写判断规则：从状态计算值用 computed；产生外部副作用才考虑 watch。
 
 **完成后应该看到**
 
-- 点击课程收藏后初始 4 门
-- 搜索 Vue 得 1 门
-- 收藏 Vue 后只看收藏得 1 门
-- 取消收藏后只看收藏显示空状态
-- 点击主项目可返回原首页
+- 输入 bo 只显示 Bob。
+- localStorage demo-key 为 bo。
 
 **立即测试，不要留到晚上**
 
-- [ ] 刷新后仍可通过按钮进入课程收藏
-- [ ] 搜索不存在课程显示空状态
-- [ ] 切回主项目后筛选和收藏仍可使用
+- [ ] 清空恢复三人
+- [ ] 删除 watch 后筛选仍工作
 
-### 必做 2：主项目异步四态与预设故障（160 分钟）
+### 必做 2：首页完成关键词、类型、结果数和重置（170 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/src/App.vue`
-- `campus-growth-hub/src/practice/async-state/AsyncActivityLab.vue`
-- `campus-growth-hub/src/services/activityApi.js`
 - `campus-growth-hub/src/views/HomeView.vue`
-- `campus-growth-hub/src/components/EmptyState.vue`
-- `campus-growth-hub/notes/day-13.md`
+- `campus-growth-hub/src/data/activities.ts`
 
 **按顺序执行**
 
-1. activityApi.js 已由 每日准备命令生成：把固定 activities 重命名导入为 seedActivities；fetchActivities(mode='success',delay=800) 在 success 返回副本、empty 返回 []、error 抛 Error('活动加载失败')。
-2. 先在 App 点击“异步故障”；AsyncActivityLab 已挂载且 finally 中故意写 loadedActivities.value=[]。选择 success 后复现“加载完成仍无卡片”，用断点观察成功赋值随后被 finally 清空，只删除标有 DAY13_INTENTIONAL_BUG 的一行。
-3. 在 AsyncActivityLab 回归 success 6 张、empty 空状态、error 错误、retry 恢复 6 张；记录复现步骤、断点值、单行修改和回归结果。
-4. 再把正确的 loadedActivities/status/errorMessage/mode/loadActivities 逻辑迁移到 HomeView；筛选 computed 改从 loadedActivities.value 读取。
-5. HomeView 提供 success/empty/error 模式选择、加载按钮和重试按钮；loading 时禁用加载，重试把 mode 设 success 后调用；最后回到 App 的“主项目”完成四态回归。
+1. 把 Day 12 的普通过滤函数改为 computed。
+2. 新增 selectedType，固定 all/技术/文艺/体育/就业/公益；关键词先 trim 和转小写。
+3. resultCount 也使用 computed；无结果显示“暂无符合条件的活动”。
+4. 重置按钮把 keyword 清空、selectedType 设为 all；watch 只把 keyword 写入 localStorage。
+5. 按 6→技术2→技术+javascript1→文艺+javascript0→重置6 回归。
 
 **完成后应该看到**
 
-- 异步故障 starter 在修复前稳定复现
-- 修复后 AsyncActivityLab 四态正确
-- 主项目 success 6 张、empty 空状态、error 错误+重试、重试恢复 6 张
-- finally 不再清空 loadedActivities
+- 结果数量与列表同步。
+- 重置恢复 6 条。
 
 **立即测试，不要留到晚上**
 
-- [ ] loading 期间加载按钮 disabled
-- [ ] 从 error 到 success 旧错误文案消失
-- [ ] 切换练习与主项目均无未处理 rejection
+- [ ] 关键词带首尾空格仍匹配
+- [ ] computed 中没有写 localStorage
 
-### 必做 3：旧算法复现、回归与提交（95 分钟）
+### 必做 3：无 AI 重写唯一过滤 computed（70 分钟）
 
 **修改或创建这些文件**
 
-- `campus-growth-hub/algorithms/day-13-review.js`
+- `campus-growth-hub/src/views/HomeView.vue`
 - `campus-growth-hub/notes/day-13.md`
 
 **按顺序执行**
 
-1. 空白重做有效括号 20 分钟与移动零 20 分钟；先说思路后写，不看完整旧代码。
-2. 每题写一个边界和复杂度；不会时只看自己的思路笔记。
-3. 回归首页：搜索、类型、收藏、success/empty/error/retry。
-4. 在终端 B 运行 npm run build；更新 A-E；提交 refactor: consolidate vue fundamentals。
+1. 关闭 AI 和课程，把 filteredActivities 暂存到笔记后从组件删除。
+2. 只根据数据、keyword、selectedType 从空白重写；不得建立第二份过滤结果状态。
+3. 完成固定 6→2→1→0→6 路线，失败就记录具体分支。
 
 **完成后应该看到**
 
-- 至少一题无提示通过
-- 首页全部路径通过
-- 构建成功
+- 过滤只有一个入口。
+- 能说明 computed 的依赖。
 
 **立即测试，不要留到晚上**
 
-- [ ] 有效括号 {[]} 为 true
-- [ ] 移动零 [0,0,1] 为 [1,0,0]
+- [ ] npm run type-check
+- [ ] npm run build
+
+### 必做 4：30 分钟算法：合并有序数组（30 分钟）
+
+**修改或创建这些文件**
+
+- `campus-growth-hub/algorithms/day-13-merge-sorted-array.ts`
+- `campus-growth-hub/notes/day-13.md`
+
+**按顺序执行**
+
+1. 算法严格计时 30 分钟：先写样例与思路，20 分钟仍无进展只看一个提示；结束时保存代码、边界、复杂度和 AI 辅助等级。
+2. 从尾部使用三个指针完成固定样例。
+
+**完成后应该看到**
+
+- 样例得到 [1,2,2,3,5,6]。
+
+**立即测试，不要留到晚上**
+
+- [ ] nums2=[] 时 nums1 不变
 
 
 ## 有余力再做
 
-- 课程收藏夹添加“已收藏 N 门”统计；不持久化。
+- 从 localStorage 恢复初始关键词；不做复杂表单。
 
 选做没有完成不进入欠账清单，也不影响当天通过。
 
@@ -174,19 +176,18 @@ git status
 检查者从这里才介入。学习过程中不提示、不提问、不注入故障，也不逐项验收。
 :::
 
-课程收藏夹→主项目首页 success→empty→error→retry→HomeView.vue。
+首页固定筛选路线 → HomeView → localStorage。
 
 **检查操作**
 
-1. 演示固定路径
-2. 解释异步四态
-3. 现场新增重试按钮或修复其事件绑定
+1. 执行 6→2→1→0→6。
+2. 说明 computed 与 watch 分工。
+3. 运行 type-check。
 
 **正确结果与判断依据**
 
-- 重试恢复 6 张
-- 能解释 finally 只做收尾
-- 说出本周 AI 辅助等级是否下降及证据
+- 筛选正确。
+- 没有重复过滤状态。
 
 ### 结果记录
 
